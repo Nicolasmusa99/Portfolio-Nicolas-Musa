@@ -983,7 +983,7 @@ footer span { color: var(--yellow); }
 
     <div class="cta-buttons">
       <a href="#experience" class="btn btn-yellow">VIEW EXPERIENCE</a>
-      <a href="/cdn-cgi/l/email-protection#4a24232925262b39273f392b6424270a2d272b232664292527" class="btn btn-outline">SEND MESSAGE</a>
+      <a href="mailto:nicolasmusa.nm@gmail.com" class="btn btn-outline">SEND MESSAGE</a>
     </div>
   </div>
 </div>
@@ -1129,8 +1129,8 @@ footer span { color: var(--yellow); }
       Based in Buenos Aires, Argentina.
     </p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#99f7f0faf6f5f8eaf4eceaf8b7f7f4d9fef4f8f0f5b7faf6f4" class="btn btn-yellow">EMAIL ME</a>
-      <a href="https://linkedin.com/in/nicolasmusa" target="_blank" class="btn btn-outline">LINKEDIN</a>
+      <a href="mailto:nicolasmusa.nm@gmail.com" class="btn btn-yellow">EMAIL ME</a>
+      <a href="https://www.linkedin.com/in/nicolas-musa/" target="_blank" class="btn btn-outline">LINKEDIN</a>
     </div>
   </div>
 </div>
@@ -1141,40 +1141,24 @@ footer span { color: var(--yellow); }
   <div class="section-header" style="max-width:960px;margin:0 auto 8px;padding:0 40px;">FIGHT!</div>
   <div class="section-sub" style="max-width:960px;margin:0 auto 12px;padding:0 40px;">// SELECT YOUR FIGHTER — NICOLAS MUSA VS THE BACKLOG</div>
 
-  <!-- CHARACTER SELECT CARDS -->
+  <!-- CHARACTER SELECT — simple picker -->
   <div id="move-cards" style="max-width:960px;margin:0 auto 0;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
 
     <div id="card-wolverine" class="fighter-card fighter-active" onclick="selectChar('wolverine')">
-      <div class="fighter-card-inner" style="border-left:5px solid #FFD700;">
+      <div class="fighter-card-inner" style="border-left:5px solid #FFD700;padding:14px 18px;">
         <div class="fc-badge" style="background:#FFD700;color:#000;">★ WOLVERINE</div>
         <div class="fc-name" style="color:#FFD700;text-shadow:0 0 12px #FF6A00;">NICOLAS MUSA</div>
         <div class="fc-style">BERSERKER RUSH-DOWN</div>
-        <div class="fc-desc">Short range, massive damage.<br>Claws shred through anything.</div>
-        <div class="fc-moves">
-          <div class="move-row"><div class="move-keys"><span class="kbd">A/D</span><span class="kbd">W</span></div><div class="move-desc">Move / Jump</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd wlv">J</span></div><div class="move-desc"><b>SNIKT!</b> — Claw Slash, 10 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd wlv">K</span></div><div class="move-desc"><b>BERSERKER</b> — 3-hit barrage, 14 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd sup">L</span></div><div class="move-desc"><b>BERSERKER HYPER</b> (3✦) — 35 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd wlv">W+J</span></div><div class="move-desc"><b>DIVE CLAWS</b> — air attack</div></div>
-        </div>
-        <div id="wlv-sel" class="fc-selected">SELECTED ✓</div>
+        <div id="wlv-sel" class="fc-selected" style="color:#FFD700;">SELECTED ✓</div>
       </div>
     </div>
 
     <div id="card-spidey" class="fighter-card" onclick="selectChar('spidey')">
-      <div class="fighter-card-inner" style="border-left:5px solid #CC0000;">
+      <div class="fighter-card-inner" style="border-left:5px solid #CC0000;padding:14px 18px;">
         <div class="fc-badge" style="background:#CC0000;color:#fff;">★ SPIDER-MAN</div>
         <div class="fc-name" style="color:#FF4444;text-shadow:0 0 12px #4444FF;">THE BACKLOG</div>
         <div class="fc-style">AERIAL WEB-ZONER</div>
-        <div class="fc-desc">Web attacks, wall-crawl jumps.<br>Keep enemies at distance.</div>
-        <div class="fc-moves">
-          <div class="move-row"><div class="move-keys"><span class="kbd">A/D</span><span class="kbd">W</span></div><div class="move-desc">Move / Jump</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd spd">J</span></div><div class="move-desc"><b>THWIP!</b> — Web Shoot, 8 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd spd">K</span></div><div class="move-desc"><b>SPIDER KICK</b> — wall bounce, 12 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd sup">L</span></div><div class="move-desc"><b>MAXIMUM CARNAGE</b> (3✦) — 32 dmg</div></div>
-          <div class="move-row"><div class="move-keys"><span class="kbd spd">W+J</span></div><div class="move-desc"><b>WEB SWING</b> — aerial dash + hit</div></div>
-        </div>
-        <div id="spd-sel" class="fc-selected" style="display:none;">SELECTED ✓</div>
+        <div id="spd-sel" class="fc-selected" style="color:#CC0000;display:none;">SELECTED ✓</div>
       </div>
     </div>
 
@@ -1216,6 +1200,23 @@ footer span { color: var(--yellow); }
   <!-- Move reminder bar -->
   <div id="move-reminder" style="max-width:960px;margin:6px auto 0;padding:6px 20px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;background:#000;border:1px solid #111;"></div>
 
+  <!-- MOBILE TOUCH CONTROLS -->
+  <div id="mobile-controls" style="display:none;">
+    <div class="mc-row mc-dpad">
+      <button class="mc-btn mc-dir" id="mb-left">◀</button>
+      <button class="mc-btn mc-dir" id="mb-up">▲</button>
+      <button class="mc-btn mc-dir" id="mb-right">▶</button>
+    </div>
+    <div class="mc-row mc-actions">
+      <button class="mc-btn mc-act mc-j" id="mb-j">J<span>SLASH</span></button>
+      <button class="mc-btn mc-act mc-k" id="mb-k">K<span>KICK</span></button>
+      <button class="mc-btn mc-act mc-l" id="mb-l">L<span>HYPER</span></button>
+    </div>
+    <div class="mc-row mc-center">
+      <button class="mc-btn mc-start" id="mb-start">START / ENTER</button>
+    </div>
+  </div>
+
 </section>
 
 <style>
@@ -1256,6 +1257,99 @@ footer span { color: var(--yellow); }
   font-family:'Press Start 2P',monospace; font-size:6px;
   padding:4px 10px; border:1px solid #222;
   display:flex; align-items:center; gap:8px;
+}
+
+/* ============================
+   MOBILE TOUCH CONTROLS
+   ============================ */
+#mobile-controls {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #000;
+  border-top: 1px solid #111;
+  padding: 12px 16px 20px;
+  grid-template-rows: auto auto auto;
+  gap: 10px;
+  touch-action: none;
+}
+.mc-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.mc-dpad { justify-content: flex-start; padding-left: 10px; }
+.mc-actions { justify-content: flex-end; padding-right: 10px; margin-top: -52px; }
+.mc-center { justify-content: center; margin-top: 8px; }
+
+.mc-btn {
+  font-family: 'Press Start 2P', monospace;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 0.1s, transform 0.1s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.mc-btn:active { filter: brightness(1.5); transform: scale(0.93); }
+
+.mc-dir {
+  width: 56px; height: 56px;
+  font-size: 18px;
+  background: #1a1440;
+  color: var(--cyan);
+  border: 2px solid #333366;
+  box-shadow: 0 0 8px #00E5FF22;
+}
+
+.mc-act {
+  width: 62px; height: 62px;
+  font-size: 13px;
+  gap: 3px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+.mc-act span {
+  font-family: 'VT323', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+.mc-j { background:#1a1000; color:#FFD700; border-color:#FFD700; box-shadow:0 0 10px #FFD70044; }
+.mc-k { background:#1a0000; color:#FF6666; border-color:#CC0000; box-shadow:0 0 10px #CC000044; }
+.mc-l { background:#1a0014; color:#FF00CC; border-color:#FF00CC; box-shadow:0 0 10px #FF00CC44; }
+
+.mc-start {
+  font-size: 7px;
+  padding: 10px 24px;
+  background: #0a0820;
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
+  box-shadow: 0 0 10px #FFE00033;
+  letter-spacing: 1px;
+}
+
+/* Responsive: shrink fighter cards on mobile */
+@media (max-width: 600px) {
+  #move-cards { grid-template-columns: 1fr !important; gap:8px !important; }
+  .fc-moves { display: none; } /* hide move list on small screens, shown in cards */
+  .fc-desc { font-size: 15px; }
+  .fc-name { font-size: 9px; }
+  nav { padding: 10px 12px; }
+  .nav-links { gap: 8px; }
+  .nav-links a { font-size: 6px; padding: 4px 5px; }
+  .insert-coin { display: none; }
+  .section-wrap { padding: 50px 14px; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .contact-box { padding: 28px 16px; clip-path: none; }
+  .btn { font-size: 7px; padding: 11px 16px; }
+  .power-stat { min-width: 100px; }
+  .mvc-stat-bars { max-width: 100%; }
+  #mobile-controls { display: grid !important; }
+  .mc-actions { margin-top: -58px; }
 }
 </style>
 
@@ -2205,6 +2299,48 @@ function gameLoop(){
 
   requestAnimationFrame(gameLoop);
 }
+
+// ============================================================
+// MOBILE TOUCH CONTROLS
+// ============================================================
+function setupMobileControls() {
+  const isMobile = /Android|iPhone|iPad|iPod|Touch/i.test(navigator.userAgent) || window.innerWidth < 768;
+  const controlsEl = document.getElementById('mobile-controls');
+  if (controlsEl) controlsEl.style.display = isMobile ? 'grid' : 'none';
+
+  // Touch → keys mapping
+  function pressKey(k) { keys[k] = true; }
+  function releaseKey(k) { keys[k] = false; }
+
+  function bindBtn(id, key, extraFn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('touchstart', e => { e.preventDefault(); pressKey(key); if(extraFn)extraFn(); }, {passive:false});
+    el.addEventListener('touchend',  e => { e.preventDefault(); releaseKey(key); }, {passive:false});
+    el.addEventListener('mousedown', () => { pressKey(key); if(extraFn)extraFn(); });
+    el.addEventListener('mouseup',   () => releaseKey(key));
+  }
+
+  bindBtn('mb-left',    'ArrowLeft');
+  bindBtn('mb-right',   'ArrowRight');
+  bindBtn('mb-up',      'ArrowUp');
+  bindBtn('mb-j',       'j');
+  bindBtn('mb-k',       'k');
+  bindBtn('mb-l',       'l');
+  bindBtn('mb-start',   'Enter', () => { if(gameState !== 'playing') startGame(); });
+
+  // Responsive canvas scale
+  function resizeCanvas() {
+    const wrapper = document.getElementById('game-canvas-wrapper');
+    if (!wrapper) return;
+    const maxW = Math.min(window.innerWidth, 960);
+    wrapper.style.maxWidth = maxW + 'px';
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+}
+
+setupMobileControls();
 
 gameLoop();
 </script>
