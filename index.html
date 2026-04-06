@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NICOLAS MUSA — PM</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
+
+:root {
+  --black: #02000A;
+  --yellow: #FFE000;
+  --cyan: #00E5FF;
+  --magenta: #FF00CC;
+  --red: #FF1C1C;
+  --green: #00FF88;
+  --orange: #FF6A00;
+  --blue: #0055FF;
+  --white: #FFFFFF;
+  --panel: #07051A;
+  --gold: #FFD700;
+  --purple: #6600FF;
+  --glow-cyan: 0 0 8px #00E5FF, 0 0 20px #00E5FF88;
+  --glow-yellow: 0 0 8px #FFE000, 0 0 20px #FFE00088;
+  --glow-magenta: 0 0 8px #FF00CC, 0 0 20px #FF00CC88;
+  --glow-green: 0 0 8px #00FF88, 0 0 20px #00FF8888;
+  --glow-red: 0 0 8px #FF1C1C, 0 0 20px #FF1C1C88;
+  --glow-gold: 0 0 8px #FFD700, 0 0 24px #FFD70088;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* SCANLINES */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.12) 0px,
+    rgba(0,0,0,0.12) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* CRT VIGNETTE */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+  z-index: 9997;
+}
+
+@keyframes flicker {
+  0%,100% { opacity: 1; }
+  93% { opacity: 0.97; }
+  94% { opacity: 0.85; }
+  95% { opacity: 1; }
+}
+body { animation: flicker 7s infinite; }
+
+@keyframes blink { 0%,49%{opacity:1}50%,100%{opacity:0} }
+@keyframes blinkSlow { 0%,59%{opacity:1}60%,100%{opacity:0} }
+
+/* ============================
+   NAV — MvC Select Screen Bar
+   ============================ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: linear-gradient(180deg, #0a0018 0%, #02000A 100%);
+  border-bottom: 3px solid var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  box-shadow: 0 0 30px #FFE00044, var(--glow-yellow);
+}
+
+.nav-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  letter-spacing: 2px;
+}
+.nav-logo span { color: var(--magenta); text-shadow: var(--glow-magenta); }
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--cyan);
+  text-decoration: none;
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.nav-links a:hover {
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  border-color: var(--yellow);
+  background: rgba(255,224,0,0.07);
+}
+
+/* PLAY button in nav — special */
+.nav-links .nav-play a {
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  border: 2px solid var(--yellow);
+  background: rgba(255,224,0,0.08);
+  box-shadow: var(--glow-yellow);
+  padding: 7px 14px;
+  animation: pulseGold 2s infinite;
+}
+@keyframes pulseGold {
+  0%,100%{box-shadow:var(--glow-yellow);}
+  50%{box-shadow:0 0 16px #FFE000, 0 0 40px #FFE000AA;}
+}
+.nav-links .nav-play a:hover {
+  background: var(--yellow);
+  color: var(--black);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+.insert-coin {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--white);
+  letter-spacing: 1px;
+  animation: blink 1s infinite;
+}
+
+/* ============================
+   HERO — CHARACTER SELECT
+   ============================ */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 110px 20px 70px;
+  position: relative;
+  overflow: hidden;
+  background: #02000A;
+}
+
+/* Dynamic MvC-style gradient bg */
+#hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 50%, #0d0040 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 70% 40%, #1a0000 0%, transparent 60%),
+    radial-gradient(ellipse 100% 50% at 50% 100%, #000820 0%, transparent 50%);
+  z-index: 0;
+}
+
+/* Animated energy beams */
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(0,229,255,0.04) 0%, transparent 40%),
+    linear-gradient(225deg, rgba(255,0,204,0.04) 0%, transparent 40%);
+  z-index: 1;
+  animation: heroBeam 4s ease-in-out infinite alternate;
+}
+@keyframes heroBeam {
+  0%{opacity:0.5;}100%{opacity:1;}
+}
+
+/* MvC pixel grid */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  z-index: 1;
+}
+
+/* VS lightning bolt between two sides */
+.hero-vs-line {
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--yellow) 20%, var(--yellow) 80%, transparent);
+  transform: translateX(-50%);
+  opacity: 0.15;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--green);
+  text-shadow: var(--glow-green);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  animation: blinkSlow 2s infinite;
+}
+
+@keyframes glitchMvC {
+  0%,85%,100% {
+    text-shadow: 4px 0 var(--magenta), -4px 0 var(--cyan), 0 0 30px var(--yellow);
+    transform: translate(0);
+    clip-path: none;
+  }
+  86% {
+    text-shadow: -4px 0 var(--magenta), 4px 0 var(--cyan);
+    transform: translate(-3px, 1px);
+  }
+  87% {
+    text-shadow: 4px 0 var(--cyan), -4px 0 var(--magenta);
+    transform: translate(3px, -2px);
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  }
+  88% {
+    transform: translate(-1px);
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  }
+  89% {
+    text-shadow: 0 0 var(--magenta);
+    transform: translate(0);
+    clip-path: none;
+  }
+}
+
+.hero-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(26px, 5.5vw, 60px);
+  color: var(--yellow);
+  letter-spacing: 5px;
+  line-height: 1.3;
+  animation: glitchMvC 5s infinite;
+  margin-bottom: 10px;
+}
+
+/* MvC character name plate style */
+.hero-nameplate {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--blue) 0%, var(--purple) 50%, var(--magenta) 100%);
+  padding: 6px 24px;
+  margin-bottom: 20px;
+  position: relative;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+}
+.hero-nameplate::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--black);
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+}
+.hero-nameplate span {
+  position: relative;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(11px, 2vw, 16px);
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  letter-spacing: 8px;
+  font-weight: 700;
+}
+
+.hero-desc {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #9999bb;
+  max-width: 580px;
+  margin: 0 auto 36px;
+  line-height: 1.7;
+}
+.hero-desc strong { color: var(--white); }
+
+/* POWER STATS — MvC character stat bars */
+.power-stats {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.power-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid #222244;
+  padding: 14px 20px;
+  min-width: 140px;
+  position: relative;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  border-top: 2px solid var(--magenta);
+}
+.power-stat-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #666688;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.power-stat-val {
+  font-family: 'Russo One', monospace;
+  font-size: 28px;
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.power-stat-sub {
+  font-family: 'VT323', monospace;
+  font-size: 14px;
+  color: var(--cyan);
+  letter-spacing: 1px;
+}
+
+/* STAT BARS — MvC style */
+.mvc-stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 440px;
+  margin: 0 auto 40px;
+  text-align: left;
+}
+.mvc-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.mvc-bar-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #888;
+  width: 80px;
+  flex-shrink: 0;
+  text-align: right;
+  letter-spacing: 1px;
+}
+.mvc-bar-outer {
+  flex: 1;
+  height: 12px;
+  background: #111133;
+  border: 1px solid #333355;
+  position: relative;
+  clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+}
+.mvc-bar-inner {
+  height: 100%;
+  position: relative;
+  transition: width 1s ease;
+}
+.mvc-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 3px; height: 100%;
+  background: rgba(255,255,255,0.6);
+}
+.bar-product { background: linear-gradient(90deg, #0044CC, #00AAFF); width: 95%; }
+.bar-data    { background: linear-gradient(90deg, #660088, #FF00CC); width: 85%; }
+.bar-biz     { background: linear-gradient(90deg, #884400, #FF6600); width: 80%; }
+.bar-delivery{ background: linear-gradient(90deg, #006633, #00FF88); width: 88%; }
+.bar-tech    { background: linear-gradient(90deg, #003388, #00E5FF); width: 70%; }
+
+.mvc-bar-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--white);
+  width: 30px;
+  text-align: right;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* MvC style buttons */
+.btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  padding: 14px 26px;
+  text-decoration: none;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.12s;
+  background: transparent;
+  position: relative;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  border: none;
+  display: inline-block;
+}
+.btn::before { content: '▶ '; }
+
+.btn-yellow {
+  color: var(--black);
+  background: var(--yellow);
+  box-shadow: 0 0 20px #FFE00066;
+  text-shadow: none;
+}
+.btn-yellow:hover {
+  background: #fff;
+  box-shadow: 0 0 40px #FFE000;
+}
+
+.btn-outline {
+  color: var(--cyan);
+  text-shadow: var(--glow-cyan);
+  background: rgba(0,229,255,0.08);
+  outline: 2px solid var(--cyan);
+  outline-offset: -2px;
+  box-shadow: var(--glow-cyan);
+}
+.btn-outline:hover {
+  background: var(--cyan);
+  color: var(--black);
+  text-shadow: none;
+  box-shadow: none;
+}
+
+/* ============================
+   SECTION COMMONS
+   ============================ */
+.section-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.section-header {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-header::before { content: '//'; color: var(--magenta); text-shadow: var(--glow-magenta); }
+.section-header::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--yellow), transparent);
+  opacity: 0.5;
+}
+
+.section-sub {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #555577;
+  margin-bottom: 48px;
+  letter-spacing: 2px;
+}
+
+/* ============================
+   EXPERIENCE — Stage Select Cards
+   ============================ */
+#experience { background: #02000A; }
+
+.exp-grid { display: flex; flex-direction: column; gap: 28px; }
+
+.exp-card {
+  background: #060414;
+  border: 2px solid #1a1440;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.exp-card:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Left color accent bar per card */
+.exp-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+}
+.exp-card.card-1::before { background: linear-gradient(180deg, var(--cyan), var(--blue)); }
+.exp-card.card-2::before { background: linear-gradient(180deg, var(--magenta), var(--purple)); }
+.exp-card.card-3::before { background: linear-gradient(180deg, var(--orange), var(--red)); }
+.exp-card.card-sq::before { background: linear-gradient(180deg, var(--green), var(--cyan)); }
+
+.exp-card-inner { padding: 28px 28px 28px 36px; }
+
+/* Stage badge */
+.stage-badge {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 5px 12px;
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.card-1 .stage-badge { background: var(--cyan); color: var(--black); }
+.card-2 .stage-badge { background: var(--magenta); color: var(--black); }
+.card-3 .stage-badge { background: var(--orange); color: var(--black); }
+.card-sq .stage-badge { background: var(--green); color: var(--black); }
+
+.card-company {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 13px;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.card-1 .card-company { color: var(--cyan); text-shadow: var(--glow-cyan); }
+.card-2 .card-company { color: var(--magenta); text-shadow: var(--glow-magenta); }
+.card-3 .card-company { color: var(--orange); }
+.card-sq .card-company { color: var(--green); text-shadow: var(--glow-green); }
+
+.card-role {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  color: var(--white);
+  letter-spacing: 3px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-period {
+  font-family: 'VT323', monospace;
+  font-size: 17px;
+  color: #444466;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+
+.card-bullets { list-style: none; margin-bottom: 22px; }
+.card-bullets li {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #aaaacc;
+  line-height: 1.6;
+  padding-left: 22px;
+  position: relative;
+  margin-bottom: 5px;
+}
+.card-1 .card-bullets li::before { content: '▶'; color: var(--cyan); position: absolute; left: 0; font-size: 11px; top: 5px; }
+.card-2 .card-bullets li::before { content: '▶'; color: var(--magenta); position: absolute; left: 0; font-size: 11px; top: 5px; }
+.card-3 .card-bullets li::before { content: '▶'; color: var(--orange); position: absolute; left: 0; font-size: 11px; top: 5px; }
+.card-sq .card-bullets li::before { content: '▶'; color: var(--green); position: absolute; left: 0; font-size: 11px; top: 5px; }
+
+.card-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 6px 12px;
+  letter-spacing: 1px;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  background: rgba(0,0,0,0.5);
+}
+.card-1 .chip { border: 1px solid var(--cyan); color: var(--cyan); }
+.card-2 .chip { border: 1px solid var(--magenta); color: var(--magenta); }
+.card-3 .chip { border: 1px solid var(--orange); color: var(--orange); }
+.card-sq .chip { border: 1px solid var(--green); color: var(--green); }
+
+/* ============================
+   SKILLS — Power-Up Grid
+   ============================ */
+#skills { background: #030010; }
+
+.skills-category {
+  margin-bottom: 40px;
+}
+.skills-category-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  padding: 6px 0 6px 14px;
+  border-left: 4px solid;
+}
+.skills-category-title.product { color: var(--cyan); border-color: var(--cyan); text-shadow: var(--glow-cyan); }
+.skills-category-title.tools   { color: var(--magenta); border-color: var(--magenta); text-shadow: var(--glow-magenta); }
+.skills-category-title.edu     { color: var(--gold); border-color: var(--gold); text-shadow: var(--glow-gold); }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+}
+
+.skill-item {
+  background: #07051A;
+  border: 1px solid #1a1440;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: default;
+  transition: all 0.15s;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.skill-item:hover {
+  border-color: var(--cyan);
+  background: #0d0a2a;
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan);
+}
+
+.skill-icon { font-size: 18px; }
+.skill-name {
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+
+/* Education cards */
+.edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.edu-card {
+  background: #07051A;
+  border: 1px solid #1a1440;
+  border-top: 2px solid var(--gold);
+  padding: 20px 22px;
+  clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  transition: all 0.15s;
+}
+.edu-card:hover {
+  border-color: var(--gold);
+  box-shadow: var(--glow-gold);
+}
+.edu-school {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: var(--gold);
+  text-shadow: var(--glow-gold);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+.edu-degree {
+  font-family: 'VT323', monospace;
+  font-size: 19px;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.edu-period {
+  font-family: 'VT323', monospace;
+  font-size: 16px;
+  color: #444466;
+}
+
+/* ============================
+   GAME — Full MvC Section
+   ============================ */
+#game {
+  background: #000008;
+  padding: 80px 0 60px;
+}
+#game .section-header,
+#game .section-sub,
+#game .game-instructions {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 40px;
+}
+#game .section-header { margin-bottom: 8px; }
+#game .section-sub { margin-bottom: 12px; }
+
+.game-instructions {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #555577;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+.game-instructions span { color: var(--yellow); }
+
+/* HUD */
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: #000;
+  border-top: 2px solid var(--yellow);
+  border-bottom: 1px solid #111;
+  max-width: 960px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px #FFE00022;
+}
+.hud-col { display: flex; flex-direction: column; align-items: center; }
+.hud-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #444466;
+  margin-bottom: 3px;
+  letter-spacing: 1px;
+}
+.hud-val {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--yellow);
+  text-shadow: var(--glow-yellow);
+}
+.hud-timer {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  color: var(--red);
+  text-shadow: var(--glow-red);
+}
+
+/* HEALTH BARS */
+.health-section {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #000;
+  padding: 14px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 2px solid #111;
+}
+.health-block-left, .health-block-right { display: flex; flex-direction: column; }
+.h-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  margin-bottom: 6px;
+}
+.h-name.left { color: var(--cyan); text-align: left; }
+.h-name.right { color: var(--red); text-align: right; }
+
+.h-bar-outer {
+  height: 18px;
+  background: #111;
+  border: 1px solid #222;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+}
+.h-bar-inner {
+  height: 100%;
+  transition: width 0.25s;
+  position: relative;
+}
+.h-bar-inner.player {
+  background: linear-gradient(90deg, #00cc55, #00FF88, #88FFCC);
+  box-shadow: 0 0 10px #00FF88;
+}
+.h-bar-inner.enemy {
+  background: linear-gradient(90deg, #FF0000, #FF4400);
+  box-shadow: 0 0 10px #FF2200;
+  float: right;
+}
+.h-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 6px; right: 6px;
+  height: 3px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+}
+
+/* Super meter */
+.super-meter-section {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #000;
+  padding: 6px 20px 10px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid #0a0a1a;
+}
+.super-label {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #FF6A00;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+.super-pips {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+.super-pip {
+  height: 8px;
+  flex: 1;
+  background: #111;
+  border: 1px solid #222;
+  clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+  transition: background 0.3s;
+}
+.super-pip.filled { background: linear-gradient(90deg, var(--orange), var(--yellow)); box-shadow: 0 0 6px var(--orange); }
+
+/* CANVAS */
+#game-canvas-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  border: 3px solid #1a1440;
+  border-top: none;
+  box-shadow: 0 0 40px #00E5FF22, 0 0 80px #FF00CC11;
+  position: relative;
+  background: #000;
+  display: block;
+}
+#gameCanvas {
+  width: 100%;
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* ============================
+   CONTACT
+   ============================ */
+#contact { background: #02000A; }
+
+.contact-box {
+  border: 2px solid #1a1440;
+  border-top: 3px solid var(--yellow);
+  padding: 50px 40px;
+  text-align: center;
+  background: #060414;
+  position: relative;
+  clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+  box-shadow: 0 0 40px #FFE00011;
+}
+.contact-pretitle {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--magenta);
+  text-shadow: var(--glow-magenta);
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+  animation: blinkSlow 2s infinite;
+}
+.contact-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.contact-desc {
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  color: #777799;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+.contact-desc strong { color: var(--cyan); }
+.contact-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer {
+  border-top: 2px solid #0a0820;
+  text-align: center;
+  padding: 28px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #222244;
+  letter-spacing: 2px;
+}
+footer span { color: var(--yellow); }
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 640px) {
+  nav { padding: 10px 16px; }
+  .nav-links { gap: 10px; }
+  .nav-links a { font-size: 6px; padding: 4px 6px; }
+  .section-wrap { padding: 60px 16px; }
+  .power-stats { gap: 8px; }
+  .power-stat { min-width: 110px; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .contact-box { padding: 30px 20px; clip-path: none; }
+  .btn { font-size: 7px; padding: 12px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NM<span>.</span>EXE</div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#experience">XP</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+    <li class="nav-play"><a href="#game">PLAY</a></li>
+  </ul>
+  <div class="insert-coin">INSERT COIN</div>
+</nav>
+
+<!-- HERO -->
+<section id="about" style="max-width:100%;padding:0;">
+<div id="hero">
+  <div id="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-vs-line"></div>
+  <div class="hero-content">
+    <div class="hero-tag">▶ CHARACTER SELECT — STAGE 1 OF 3</div>
+    <h1 class="hero-title">NICOLAS<br>MUSA</h1>
+    <div class="hero-nameplate"><span>SENIOR PRODUCT MANAGER</span></div>
+    <p class="hero-desc">
+      Builds <strong>B2B SaaS products end-to-end</strong> — discovery, strategy, delivery, measurement.<br>
+      Specialized in activation, checkout conversion, and operational efficiency.<br>
+      Based in Buenos Aires, Argentina.
+    </p>
+
+    <!-- MvC stat bars -->
+    <div class="mvc-stat-bars">
+      <div class="mvc-bar-row">
+        <span class="mvc-bar-label">PRODUCT</span>
+        <div class="mvc-bar-outer"><div class="mvc-bar-inner bar-product"></div></div>
+        <span class="mvc-bar-val">95</span>
+      </div>
+      <div class="mvc-bar-row">
+        <span class="mvc-bar-label">DATA</span>
+        <div class="mvc-bar-outer"><div class="mvc-bar-inner bar-data"></div></div>
+        <span class="mvc-bar-val">85</span>
+      </div>
+      <div class="mvc-bar-row">
+        <span class="mvc-bar-label">BIZOPS</span>
+        <div class="mvc-bar-outer"><div class="mvc-bar-inner bar-biz"></div></div>
+        <span class="mvc-bar-val">80</span>
+      </div>
+      <div class="mvc-bar-row">
+        <span class="mvc-bar-label">DELIVERY</span>
+        <div class="mvc-bar-outer"><div class="mvc-bar-inner bar-delivery"></div></div>
+        <span class="mvc-bar-val">88</span>
+      </div>
+      <div class="mvc-bar-row">
+        <span class="mvc-bar-label">TECH</span>
+        <div class="mvc-bar-outer"><div class="mvc-bar-inner bar-tech"></div></div>
+        <span class="mvc-bar-val">70</span>
+      </div>
+    </div>
+
+    <div class="cta-buttons">
+      <a href="#experience" class="btn btn-yellow">VIEW EXPERIENCE</a>
+      <a href="/cdn-cgi/l/email-protection#4a24232925262b39273f392b6424270a2d272b232664292527" class="btn btn-outline">SEND MESSAGE</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background:#02000A; padding:80px 0;">
+<div class="section-wrap">
+  <div class="section-header">EXPERIENCE</div>
+  <div class="section-sub">// CAREER TIMELINE — SELECT YOUR STAGE</div>
+
+  <div class="exp-grid">
+
+    <!-- DESKY -->
+    <div class="exp-card card-1">
+      <div class="exp-card-inner">
+        <div class="stage-badge">STAGE 01 — CURRENT</div>
+        <div class="card-company">DESKY</div>
+        <div class="card-role">PRODUCT MANAGER</div>
+        <div class="card-period">2024 — PRESENT · B2B SAAS / MARKETPLACE · ARGENTINA</div>
+        <ul class="card-bullets">
+          <li>Own end-to-end product roadmap for a B2B SaaS platform connecting companies with flexible workspaces and coworking providers.</li>
+          <li>Led discovery, prioritization, and delivery of core product initiatives focused on activation, booking completion, and operational efficiency.</li>
+          <li>Redesigned onboarding and authentication flows (SSO, duplicate-user detection), reducing friction and improving activation rates.</li>
+          <li>Simplified booking flows with automated validations and operational rules, reducing manual interventions and booking errors.</li>
+          <li>Improved lifecycle communications and reactivation flows based on user behavior analysis, positively impacting retention and repeat usage.</li>
+        </ul>
+        <div class="card-chips">
+          <span class="chip">ACTIVATION</span>
+          <span class="chip">CHECKOUT OPT.</span>
+          <span class="chip">SSO / ONBOARDING</span>
+          <span class="chip">B2B SAAS</span>
+          <span class="chip">REPORTING TO CEO</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAKEOFF -->
+    <div class="exp-card card-2">
+      <div class="exp-card-inner">
+        <div class="stage-badge">STAGE 02</div>
+        <div class="card-company">TAKEOFF MEDIA</div>
+        <div class="card-role">PRODUCT MANAGER</div>
+        <div class="card-period">2023 — 2024 · SAAS / DIGITAL PRODUCTS · URUGUAY</div>
+        <ul class="card-bullets">
+          <li>Helped establish product processes from scratch — user flows, documentation standards, and prioritization frameworks.</li>
+          <li>Coordinated cross-functional teams (engineering, design, stakeholders) to deliver digital products with clear scope and timelines.</li>
+          <li>Improved delivery quality and reduced rework by strengthening validation, documentation, and feedback loops.</li>
+        </ul>
+        <div class="card-chips">
+          <span class="chip">0→1 PRODUCT OPS</span>
+          <span class="chip">CROSS-FUNCTIONAL</span>
+          <span class="chip">DOCUMENTATION</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LFI -->
+    <div class="exp-card card-3">
+      <div class="exp-card-inner">
+        <div class="stage-badge">STAGE 03</div>
+        <div class="card-company">LFI</div>
+        <div class="card-role">PROJECT MANAGER</div>
+        <div class="card-period">2021 — 2023 · EDTECH / SAAS · CHILE</div>
+        <ul class="card-bullets">
+          <li>Led full product lifecycle from concept to MVP, aligning business objectives with product scope and technical feasibility.</li>
+          <li>Defined requirements, user stories, and acceptance criteria for engineering teams.</li>
+          <li>Improved delivery predictability and reduced post-release issues through clearer validation and QA processes.</li>
+        </ul>
+        <div class="card-chips">
+          <span class="chip">CONCEPT → MVP</span>
+          <span class="chip">EDTECH</span>
+          <span class="chip">USER STORIES</span>
+          <span class="chip">QA PROCESSES</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- SKILLS + EDUCATION -->
+<section id="skills" style="background:#030010; padding:80px 0;">
+<div class="section-wrap">
+  <div class="section-header">SKILLS</div>
+  <div class="section-sub">// POWER-UPS EQUIPPED</div>
+
+  <div class="skills-category">
+    <div class="skills-category-title product">PRODUCT</div>
+    <div class="skills-grid">
+      <div class="skill-item"><span class="skill-icon">🗺</span><span class="skill-name">Product Roadmapping</span></div>
+      <div class="skill-item"><span class="skill-icon">🔍</span><span class="skill-name">Discovery & Research</span></div>
+      <div class="skill-item"><span class="skill-icon">🎯</span><span class="skill-name">Prioritization</span></div>
+      <div class="skill-item"><span class="skill-icon">📊</span><span class="skill-name">Data-Driven Decisions</span></div>
+      <div class="skill-item"><span class="skill-icon">🔁</span><span class="skill-name">Activation & Onboarding</span></div>
+      <div class="skill-item"><span class="skill-icon">💳</span><span class="skill-name">Checkout & Conversion</span></div>
+      <div class="skill-item"><span class="skill-icon">🤝</span><span class="skill-name">Stakeholder Management</span></div>
+      <div class="skill-item"><span class="skill-icon">⚡</span><span class="skill-name">Cross-functional Lead</span></div>
+    </div>
+  </div>
+
+  <div class="skills-category">
+    <div class="skills-category-title tools">TOOLS</div>
+    <div class="skills-grid">
+      <div class="skill-item"><span class="skill-icon">📋</span><span class="skill-name">Jira / Confluence</span></div>
+      <div class="skill-item"><span class="skill-icon">📝</span><span class="skill-name">Notion</span></div>
+      <div class="skill-item"><span class="skill-icon">🎨</span><span class="skill-name">Figma</span></div>
+      <div class="skill-item"><span class="skill-icon">🗂</span><span class="skill-name">Miro</span></div>
+      <div class="skill-item"><span class="skill-icon">💬</span><span class="skill-name">Intercom</span></div>
+      <div class="skill-item"><span class="skill-icon">🔥</span><span class="skill-name">HubSpot</span></div>
+    </div>
+  </div>
+
+  <div class="skills-category">
+    <div class="skills-category-title edu">EDUCATION</div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-school">UNIVERSIDAD DEL MUSEO<br>SOCIAL ARGENTINO</div>
+        <div class="edu-degree">Bachelor's — Communication</div>
+        <div class="edu-period">2015 – 2018 · Argentina</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">ORT ARGENTINA</div>
+        <div class="edu-degree">Degree — Systems Analysis</div>
+        <div class="edu-period">2019 – 2021 · Argentina</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:#02000A; padding:80px 0;">
+<div class="section-wrap">
+  <div class="section-header">CONTACT</div>
+  <div class="section-sub">// READY TO COLLABORATE?</div>
+  <div class="contact-box">
+    <div class="contact-pretitle">▶ PLAYER 2 — PRESS START</div>
+    <div class="contact-title">LET'S BUILD<br>SOMETHING</div>
+    <p class="contact-desc">
+      Open to remote <strong>B2B SaaS / marketplace PM roles</strong>, compensated in USD.<br>
+      Based in Buenos Aires, Argentina.
+    </p>
+    <div class="contact-links">
+      <a href="/cdn-cgi/l/email-protection#99f7f0faf6f5f8eaf4eceaf8b7f7f4d9fef4f8f0f5b7faf6f4" class="btn btn-yellow">EMAIL ME</a>
+      <a href="https://linkedin.com/in/nicolasmusa" target="_blank" class="btn btn-outline">LINKEDIN</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- GAME — at the bottom, linked from PLAY in nav -->
+<section id="game">
+  <div class="section-header" style="max-width:960px;margin:0 auto 8px;padding:0 40px;">FIGHT!</div>
+  <div class="section-sub" style="max-width:960px;margin:0 auto 12px;padding:0 40px;">// SELECT YOUR FIGHTER — NICOLAS MUSA VS THE BACKLOG</div>
+
+  <!-- CHARACTER SELECT CARDS -->
+  <div id="move-cards" style="max-width:960px;margin:0 auto 0;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+    <div id="card-wolverine" class="fighter-card fighter-active" onclick="selectChar('wolverine')">
+      <div class="fighter-card-inner" style="border-left:5px solid #FFD700;">
+        <div class="fc-badge" style="background:#FFD700;color:#000;">★ WOLVERINE</div>
+        <div class="fc-name" style="color:#FFD700;text-shadow:0 0 12px #FF6A00;">NICOLAS MUSA</div>
+        <div class="fc-style">BERSERKER RUSH-DOWN</div>
+        <div class="fc-desc">Short range, massive damage.<br>Claws shred through anything.</div>
+        <div class="fc-moves">
+          <div class="move-row"><div class="move-keys"><span class="kbd">A/D</span><span class="kbd">W</span></div><div class="move-desc">Move / Jump</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd wlv">J</span></div><div class="move-desc"><b>SNIKT!</b> — Claw Slash, 10 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd wlv">K</span></div><div class="move-desc"><b>BERSERKER</b> — 3-hit barrage, 14 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd sup">L</span></div><div class="move-desc"><b>BERSERKER HYPER</b> (3✦) — 35 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd wlv">W+J</span></div><div class="move-desc"><b>DIVE CLAWS</b> — air attack</div></div>
+        </div>
+        <div id="wlv-sel" class="fc-selected">SELECTED ✓</div>
+      </div>
+    </div>
+
+    <div id="card-spidey" class="fighter-card" onclick="selectChar('spidey')">
+      <div class="fighter-card-inner" style="border-left:5px solid #CC0000;">
+        <div class="fc-badge" style="background:#CC0000;color:#fff;">★ SPIDER-MAN</div>
+        <div class="fc-name" style="color:#FF4444;text-shadow:0 0 12px #4444FF;">THE BACKLOG</div>
+        <div class="fc-style">AERIAL WEB-ZONER</div>
+        <div class="fc-desc">Web attacks, wall-crawl jumps.<br>Keep enemies at distance.</div>
+        <div class="fc-moves">
+          <div class="move-row"><div class="move-keys"><span class="kbd">A/D</span><span class="kbd">W</span></div><div class="move-desc">Move / Jump</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd spd">J</span></div><div class="move-desc"><b>THWIP!</b> — Web Shoot, 8 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd spd">K</span></div><div class="move-desc"><b>SPIDER KICK</b> — wall bounce, 12 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd sup">L</span></div><div class="move-desc"><b>MAXIMUM CARNAGE</b> (3✦) — 32 dmg</div></div>
+          <div class="move-row"><div class="move-keys"><span class="kbd spd">W+J</span></div><div class="move-desc"><b>WEB SWING</b> — aerial dash + hit</div></div>
+        </div>
+        <div id="spd-sel" class="fc-selected" style="display:none;">SELECTED ✓</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HUD -->
+  <div class="game-hud" style="margin-top:12px;">
+    <div class="hud-col"><span class="hud-label">SCORE</span><span class="hud-val" id="score">000000</span></div>
+    <div class="hud-col"><span class="hud-label">TIME</span><span class="hud-timer" id="timer">99</span></div>
+    <div class="hud-col"><span class="hud-label">HI-SCORE</span><span class="hud-val" id="hiscore">010000</span></div>
+  </div>
+
+  <div class="health-section">
+    <div class="health-block-left">
+      <span class="h-name left" id="p1name">WOLVERINE</span>
+      <div class="h-bar-outer"><div class="h-bar-inner player" id="p1health" style="width:100%"></div></div>
+    </div>
+    <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:var(--yellow);text-align:center;padding:0 10px;">VS</div>
+    <div class="health-block-right">
+      <span class="h-name right" id="p2name">DARK SPIDEY</span>
+      <div class="h-bar-outer"><div class="h-bar-inner enemy" id="p2health" style="width:100%"></div></div>
+    </div>
+  </div>
+
+  <div class="super-meter-section">
+    <span class="super-label">SUPER ✦</span>
+    <div class="super-pips" id="superPips">
+      <div class="super-pip" id="pip0"></div><div class="super-pip" id="pip1"></div>
+      <div class="super-pip" id="pip2"></div><div class="super-pip" id="pip3"></div>
+      <div class="super-pip" id="pip4"></div>
+    </div>
+    <span class="super-label" id="superLabel" style="color:#444466;">0 / 5</span>
+  </div>
+
+  <div id="game-canvas-wrapper">
+    <canvas id="gameCanvas" width="960" height="440"></canvas>
+  </div>
+
+  <!-- Move reminder bar -->
+  <div id="move-reminder" style="max-width:960px;margin:6px auto 0;padding:6px 20px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;background:#000;border:1px solid #111;"></div>
+
+</section>
+
+<style>
+.fighter-card {
+  background:#07051A; border:2px solid #1a1440;
+  cursor:pointer; transition:all 0.15s; user-select:none;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+}
+.fighter-card:hover { filter:brightness(1.2); transform:translateY(-2px); }
+.fighter-active { outline:3px solid var(--yellow); outline-offset:2px; }
+.fighter-card-inner { padding:18px 20px; }
+.fc-badge {
+  display:inline-block; font-family:'Press Start 2P',monospace; font-size:7px;
+  padding:4px 12px; margin-bottom:10px; letter-spacing:1px;
+  clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+}
+.fc-name { font-family:'Press Start 2P',monospace; font-size:11px; margin-bottom:4px; letter-spacing:2px; }
+.fc-style { font-family:'Orbitron',monospace; font-size:9px; color:#888899; letter-spacing:3px; margin-bottom:10px; }
+.fc-desc { font-family:'VT323',monospace; font-size:17px; color:#666688; margin-bottom:12px; line-height:1.5; }
+.fc-moves { display:flex; flex-direction:column; gap:5px; }
+.move-row { display:flex; align-items:center; gap:10px; }
+.move-keys { display:flex; gap:4px; min-width:72px; }
+.move-desc { font-family:'VT323',monospace; font-size:17px; color:#888899; }
+.move-desc b { color:#ccc; }
+.kbd {
+  font-family:'Press Start 2P',monospace; font-size:7px;
+  border:1px solid #444; background:#111;
+  padding:3px 6px; color:#ccc; border-radius:2px; white-space:nowrap;
+}
+.kbd.wlv { border-color:#FFD700; color:#FFD700; background:#1a1000; }
+.kbd.spd { border-color:#CC0000; color:#FF6666; background:#1a0000; }
+.kbd.sup { border-color:#FF00CC; color:#FF00CC; background:#1a0014; }
+.fc-selected {
+  font-family:'Press Start 2P',monospace; font-size:7px;
+  margin-top:10px; animation:blink 0.7s infinite;
+}
+.reminder-pill {
+  font-family:'Press Start 2P',monospace; font-size:6px;
+  padding:4px 10px; border:1px solid #222;
+  display:flex; align-items:center; gap:8px;
+}
+</style>
+
+<footer>
+  &copy; 2025 <span>NICOLAS MUSA</span> · ALL RIGHTS RESERVED · BUENOS AIRES, ARG
+</footer>
+
+<script>
+// ============================================================
+// CHARACTER SELECT
+// ============================================================
+let selectedChar = 'wolverine';
+
+function selectChar(ch) {
+  selectedChar = ch;
+  ['wolverine','spidey'].forEach(c => {
+    document.getElementById('card-'+c).classList.toggle('fighter-active', c===ch);
+  });
+  document.getElementById('wlv-sel').style.display = ch==='wolverine'?'block':'none';
+  document.getElementById('spd-sel').style.display = ch==='spidey'?'block':'none';
+  document.getElementById('card-wolverine').style.color = ch==='wolverine'?'#FFD700':'';
+  updateReminderBar();
+}
+
+function updateReminderBar() {
+  const el = document.getElementById('move-reminder');
+  if (!el) return;
+  const isWlv = selectedChar === 'wolverine';
+  const moves = isWlv ? [
+    {key:'J', desc:'SNIKT! Slash', col:'#FFD700'},
+    {key:'K', desc:'Berserker Barrage', col:'#FF6A00'},
+    {key:'L', desc:'Berserker Hyper (3✦)', col:'#FF00CC'},
+    {key:'W+J', desc:'Dive Claws', col:'#FFD700'},
+  ] : [
+    {key:'J', desc:'THWIP! Web Shoot', col:'#FF6666'},
+    {key:'K', desc:'Spider Kick', col:'#CC0000'},
+    {key:'L', desc:'Maximum Carnage (3✦)', col:'#FF00CC'},
+    {key:'W+J', desc:'Web Swing', col:'#FF6666'},
+  ];
+  el.innerHTML = moves.map(m =>
+    `<div class="reminder-pill" style="border-color:${m.col}55;">
+      <span style="color:${m.col}">${m.key}</span>
+      <span style="color:#555577;font-family:'VT323',monospace;font-size:16px;">${m.desc}</span>
+    </div>`
+  ).join('');
+}
+
+selectChar('wolverine');
+
+// ============================================================
+// GAME ENGINE
+// ============================================================
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = 960, H = 440;
+const GROUND = H - 70;
+const GRAVITY = 0.65;
+const JUMP_FORCE = -15;
+const MOVE_SPEED = 4.5;
+
+let score = 0, hiScore = 10000, timer = 99;
+let gameState = 'charselect';
+let timerInterval = null;
+let frameCount = 0;
+let superMeter = 0;
+let bgOffset = 0;
+
+const particles = [], hitTexts = [], energyRings = [], webLines = [];
+
+function spawnParticles(x,y,color,count=10,speed=4){
+  for(let i=0;i<count;i++){
+    const a=(Math.PI*2*i)/count+Math.random()*0.4;
+    particles.push({x,y,vx:Math.cos(a)*speed*(0.5+Math.random()),vy:Math.sin(a)*speed*(0.5+Math.random())-2,life:35,maxLife:35,color,size:5+Math.random()*8});
+  }
+}
+function spawnRing(x,y,color){energyRings.push({x,y,r:0,life:22,maxLife:22,color});}
+function spawnText(x,y,text,color,size=16){hitTexts.push({x,y,text,color,life:48,maxLife:48,vy:-2.5,size});}
+function spawnWeb(x1,y1,x2,y2){webLines.push({x1,y1,x2,y2,life:20,maxLife:20});}
+
+// ============================================================
+// ENTITIES
+// ============================================================
+const player = {x:160,y:GROUND,vx:0,vy:0,health:100,maxHealth:100,state:'idle',stateTimer:0,facing:true,onGround:true,invincible:0,comboCount:0,comboTimer:0,webSwingActive:false,webSwingTimer:0,berserkerHits:0};
+const enemy  = {x:760,y:GROUND,vx:0,vy:0,health:100,maxHealth:100,state:'idle',stateTimer:0,facing:false,onGround:true,invincible:0,attackTimer:0,aiMode:'approach',aiTimer:0};
+
+// ============================================================
+// ██████  WOLVERINE SPRITE
+// ============================================================
+function drawWolverine(x, y, state, facingRight, tint) {
+  const dir = facingRight ? 1 : -1;
+  ctx.save();
+  ctx.translate(Math.round(x), Math.round(y));
+  if (tint) { ctx.filter = tint; }
+
+  const bob   = state==='idle' ? Math.sin(frameCount*0.09)*2.5 : 0;
+  const isAtk = ['punch','kick','special'].includes(state);
+  const inAir  = !facingRight && state==='jump'; // flip example
+
+  // ---- SHADOW ----
+  ctx.fillStyle='rgba(255,215,0,0.12)';
+  ctx.beginPath(); ctx.ellipse(0,2,26,8,0,0,Math.PI*2); ctx.fill();
+
+  // ---- BOOTS ----
+  ctx.fillStyle='#5c3010';
+  ctx.fillRect(-16, bob+22, 14, 10);
+  ctx.fillRect( 3,  bob+22+(state==='kick'?-16:0), 13, 10);
+  ctx.fillStyle='#7a4018';
+  ctx.fillRect(-16, bob+28, 14, 4);
+  ctx.fillRect( 3,  bob+28+(state==='kick'?-16:0), 13, 4);
+
+  // ---- LEGS — dark navy ----
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(-14, bob+1, 12, 22);
+  if (state==='kick') {
+    ctx.save();
+    ctx.translate(dir*14, bob+4);
+    ctx.rotate(dir * 0.65);
+    ctx.fillRect(-6,-2,12,22);
+    ctx.restore();
+  } else {
+    ctx.fillRect(3, bob+1, 12, 22);
+  }
+
+  // ---- BODY — dark navy torso ----
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(-18, bob-44, 36, 44);
+
+  // Yellow chest stripe
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-12, bob-42, 24, 30);
+  // Blue side panels
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(-18, bob-42, 7, 30);
+  ctx.fillRect(11,  bob-42, 7, 30);
+  // Center navy stripe
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(-4, bob-42, 8, 30);
+
+  // Belt
+  ctx.fillStyle='#5c3010';
+  ctx.fillRect(-18, bob-2, 36, 7);
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-5, bob-2, 10, 7);
+  ctx.fillStyle='#aaa';
+  ctx.fillRect(-3, bob-1, 6, 5);
+
+  // ---- PUNCH ARM + CLAWS ----
+  const clawReach = isAtk ? 36*dir : 12*dir;
+  ctx.fillStyle='#FFD700';
+  const armX = dir>0 ? 16 : -16-Math.abs(clawReach);
+  ctx.fillRect(armX, bob-38, Math.abs(clawReach)+8, 13);
+  // Knuckle
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(armX, bob-38, 8, 13);
+
+  // CLAWS — adamantium silver
+  const clawTip = dir>0 ? armX+Math.abs(clawReach)+8 : armX-20;
+  ctx.fillStyle='#d0d8f0';
+  ctx.shadowBlur=14; ctx.shadowColor='#aaccff';
+  // Three claws fanning out
+  const clawAngles = [-0.25, 0, 0.25];
+  clawAngles.forEach((ang,ci) => {
+    ctx.save();
+    ctx.translate(clawTip+(dir>0?0:20), bob-36+ci*5);
+    ctx.rotate(ang * dir);
+    ctx.fillRect(0, -2, dir>0?22:-22, 4);
+    // Claw tip shine
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(dir>0?18:-20, -1, dir>0?4:-4, 2);
+    ctx.restore();
+    ctx.fillStyle='#d0d8f0';
+  });
+  ctx.shadowBlur=0;
+
+  // Back arm
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-dir*20, bob-38, 10, 12);
+
+  // ---- HEAD — iconic Wolverine mask ----
+  // Mask base (yellow)
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-14, bob-70, 28, 28);
+  // Mask POINTS — the signature ears
+  // Left point
+  ctx.fillStyle='#FFD700';
+  ctx.beginPath();
+  ctx.moveTo(-14, bob-70);
+  ctx.lineTo(-8,  bob-88);
+  ctx.lineTo(-2,  bob-70);
+  ctx.fill();
+  // Right point
+  ctx.beginPath();
+  ctx.moveTo(2,  bob-70);
+  ctx.lineTo(8,  bob-88);
+  ctx.lineTo(14, bob-70);
+  ctx.fill();
+
+  // Blue face panel
+  ctx.fillStyle='#0a1a44';
+  ctx.fillRect(-9, bob-64, 18, 22);
+  // Nose bridge divider
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-2, bob-64, 4, 10);
+
+  // Eyes — narrow angry white slits
+  ctx.fillStyle='#FFFFFF';
+  ctx.shadowBlur=8; ctx.shadowColor='#fff';
+  // Left eye slit (angled, angry)
+  ctx.save();
+  ctx.translate(dir>0?-7:-1, bob-56);
+  ctx.rotate(dir>0?0.2:-0.2);
+  ctx.fillRect(0,-2,8,4);
+  ctx.restore();
+  // Right eye slit
+  ctx.save();
+  ctx.translate(dir>0?1:7, bob-56);
+  ctx.rotate(dir>0?-0.2:0.2);
+  ctx.fillRect(0,-2,8,4);
+  ctx.restore();
+  ctx.shadowBlur=0;
+
+  // Chin/jaw area
+  ctx.fillStyle='#FFD700';
+  ctx.fillRect(-14, bob-46, 28, 8);
+
+  // ---- BERSERKER RAGE SPECIAL FX ----
+  if (state==='special') {
+    ctx.strokeStyle='#FF6A00';
+    ctx.lineWidth=3;
+    ctx.shadowBlur=28; ctx.shadowColor='#FF6A00';
+    for (let ri=0;ri<4;ri++) {
+      ctx.globalAlpha=0.8-ri*0.18;
+      ctx.beginPath(); ctx.arc(0,bob-40,20+ri*18,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.globalAlpha=1; ctx.shadowBlur=0;
+    // slash lines
+    ctx.strokeStyle='#FFD700'; ctx.lineWidth=2;
+    ctx.shadowBlur=10; ctx.shadowColor='#FFD700';
+    for(let sl=0;sl<3;sl++){
+      ctx.beginPath();
+      ctx.moveTo(dir*30+sl*4, bob-60+sl*10);
+      ctx.lineTo(dir*80+sl*4, bob-20+sl*10);
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+  }
+
+  // Berserker barrage: rapid slash marks
+  if (state==='kick' && player.berserkerHits > 0) {
+    ctx.strokeStyle='#FFD700'; ctx.lineWidth=2;
+    ctx.shadowBlur=8; ctx.shadowColor='#FFD700';
+    for(let sh=0;sh<player.berserkerHits;sh++){
+      ctx.beginPath();
+      ctx.moveTo(dir*50+sh*6, bob-50+sh*8);
+      ctx.lineTo(dir*80+sh*6, bob-30+sh*8);
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+  }
+
+  // Hit flash
+  if (state==='hit') {
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.fillRect(-18,bob-88,36,96);
+  }
+
+  ctx.restore();
+}
+
+// ============================================================
+// 🕷 SPIDER-MAN SPRITE
+// ============================================================
+function drawSpiderMan(x, y, state, facingRight, isEnemy) {
+  const dir = facingRight ? 1 : -1;
+  // Enemy = Venom/dark version, Player = classic red/blue
+  const bodyR  = isEnemy ? '#111111' : '#CC0000';
+  const bodyB  = isEnemy ? '#0a0a1a' : '#1a1aCC';
+  const eyeCol = isEnemy ? '#FFFFFF' : '#FFFFFF';
+  const webCol = isEnemy ? '#FFFFFF' : '#FFFFFF';
+  const accentCol = isEnemy ? '#FFFFFF' : '#0000CC';
+
+  ctx.save();
+  ctx.translate(Math.round(x), Math.round(y));
+
+  const bob   = state==='idle' ? Math.sin(frameCount*0.1+(isEnemy?2:0))*2.8 : 0;
+  const isAtk = ['punch','kick','special','attack'].includes(state);
+
+  // Shadow
+  ctx.fillStyle=isEnemy?'rgba(40,0,80,0.2)':'rgba(180,0,0,0.18)';
+  ctx.beginPath(); ctx.ellipse(0,2,22,6,0,0,Math.PI*2); ctx.fill();
+
+  // ---- LEGS ----
+  // Spider-Man has a distinctive crouched stance
+  ctx.fillStyle=bodyB;
+  // Left leg — slight crouch
+  ctx.fillRect(-14, bob+2, 12, 20);
+  // Right leg
+  if (state==='kick') {
+    // Extended kick — leg goes forward high
+    ctx.save();
+    ctx.translate(dir*16, bob-2);
+    ctx.rotate(dir*-0.7);
+    ctx.fillRect(-5,0,10,22);
+    // Foot/boot
+    ctx.fillStyle=bodyR;
+    ctx.fillRect(-5,20,14,8);
+    ctx.restore();
+  } else {
+    ctx.fillRect(2, bob+2, 12, 20);
+  }
+
+  // Feet (red boots with web pattern)
+  ctx.fillStyle=bodyR;
+  ctx.fillRect(-16, bob+20, 14, 8);
+  if (state!=='kick') ctx.fillRect(2, bob+20, 14, 8);
+  // Boot top divider line
+  ctx.fillStyle=accentCol;
+  ctx.fillRect(-16, bob+20, 14, 2);
+  if (state!=='kick') ctx.fillRect(2, bob+20, 14, 2);
+
+  // ---- BODY ----
+  // Red torso
+  ctx.fillStyle=bodyR;
+  ctx.fillRect(-16, bob-40, 32, 40);
+  // Blue side panels (classic Spidey)
+  ctx.fillStyle=bodyB;
+  ctx.fillRect(-16, bob-40, 6, 40);
+  ctx.fillRect(10,  bob-40, 6, 40);
+
+  // Web pattern on chest (fine grid lines)
+  ctx.strokeStyle=isEnemy?'rgba(255,255,255,0.15)':'rgba(0,0,0,0.25)';
+  ctx.lineWidth=0.8;
+  for(let wg=0;wg<5;wg++){
+    // horizontal
+    ctx.beginPath(); ctx.moveTo(-14,bob-40+wg*9); ctx.lineTo(10,bob-40+wg*9); ctx.stroke();
+    // diagonal lines radiating from center-chest
+    ctx.beginPath(); ctx.moveTo(-2,bob-40); ctx.lineTo(-14,bob-40+wg*9); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-2,bob-40); ctx.lineTo(10,bob-40+wg*9); ctx.stroke();
+  }
+
+  // Spider emblem
+  ctx.fillStyle=isEnemy?'#FFFFFF':'#000000';
+  // Spider body
+  ctx.fillRect(-4, bob-32, 8, 10);
+  // Spider legs (4 per side)
+  ctx.fillRect(-12, bob-30, 8, 2);
+  ctx.fillRect(-12, bob-26, 7, 2);
+  ctx.fillRect(4,  bob-30, 8, 2);
+  ctx.fillRect(5,  bob-26, 7, 2);
+
+  // ---- WEB / PUNCH ARM ----
+  const webReach = isAtk ? 36*dir : 10*dir;
+  ctx.fillStyle=bodyR;
+  const armX = dir>0 ? 14 : -14-Math.abs(webReach);
+  ctx.fillRect(armX, bob-32, Math.abs(webReach)+8, 11);
+  // Blue arm stripe
+  ctx.fillStyle=bodyB;
+  ctx.fillRect(armX, bob-32, 4, 11);
+
+  // WEB SHOOTER HAND EFFECT
+  if (state==='punch' || state==='special') {
+    const handX = dir>0 ? armX+Math.abs(webReach)+6 : armX-12;
+    ctx.fillStyle=bodyR;
+    ctx.fillRect(handX, bob-36, 12, 14);
+    // Web fluid burst
+    ctx.strokeStyle=webCol;
+    ctx.lineWidth=2;
+    ctx.shadowBlur=16; ctx.shadowColor='#8888FF';
+    // Multiple web strands shooting out
+    for(let ws=0;ws<5;ws++){
+      const ang=-0.4+(ws*0.2);
+      ctx.beginPath();
+      ctx.moveTo(handX+(dir>0?12:0), bob-30);
+      ctx.lineTo(handX+(dir>0?12:0)+dir*Math.cos(ang)*30, bob-30+Math.sin(ang)*30);
+      ctx.stroke();
+    }
+    ctx.shadowBlur=0;
+  } else if (state==='kick' && !isEnemy) {
+    // Web behind during kick for style
+    ctx.strokeStyle='rgba(255,255,255,0.3)';
+    ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(-dir*14,bob-28); ctx.lineTo(-dir*50,bob-10); ctx.stroke();
+  }
+
+  // Back arm
+  ctx.fillStyle=bodyR;
+  ctx.fillRect(-dir*18, bob-32, 10, 11);
+
+  // ---- HEAD — Spider-Man mask ----
+  // Full head, red
+  ctx.fillStyle=bodyR;
+  ctx.fillRect(-12, bob-62, 24, 24);
+  // Blue top half
+  ctx.fillStyle=bodyB;
+  ctx.fillRect(-12, bob-62, 24, 12);
+  // Blue sides
+  ctx.fillStyle=bodyB;
+  ctx.fillRect(-13, bob-58, 4, 16);
+  ctx.fillRect(9,   bob-58, 4, 16);
+
+  // Web pattern on head
+  ctx.strokeStyle=isEnemy?'rgba(255,255,255,0.1)':'rgba(0,0,0,0.2)';
+  ctx.lineWidth=0.7;
+  for(let hw=0;hw<4;hw++){
+    ctx.beginPath(); ctx.moveTo(-10,bob-62+hw*6); ctx.lineTo(10,bob-62+hw*6); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-12+hw*8,bob-62); ctx.lineTo(-12+hw*8,bob-38); ctx.stroke();
+  }
+
+  // THE EYES — iconic large white eye lenses, angular
+  ctx.fillStyle=eyeCol;
+  ctx.shadowBlur=14; ctx.shadowColor=eyeCol;
+
+  // Left eye (large teardrop/angular shape)
+  ctx.beginPath();
+  if (dir>0) {
+    // Facing right — left eye = inner, right eye = outer
+    ctx.moveTo(-10, bob-54);
+    ctx.lineTo(-2,  bob-58);
+    ctx.lineTo(2,   bob-54);
+    ctx.lineTo(-2,  bob-50);
+    ctx.closePath();
+  } else {
+    ctx.moveTo(10,  bob-54);
+    ctx.lineTo(2,   bob-58);
+    ctx.lineTo(-2,  bob-54);
+    ctx.lineTo(2,   bob-50);
+    ctx.closePath();
+  }
+  ctx.fill();
+
+  // Right eye (slightly smaller, same shape)
+  ctx.beginPath();
+  if (dir>0) {
+    ctx.moveTo(2,   bob-56);
+    ctx.lineTo(9,   bob-59);
+    ctx.lineTo(12,  bob-54);
+    ctx.lineTo(8,   bob-50);
+    ctx.closePath();
+  } else {
+    ctx.moveTo(-2,  bob-56);
+    ctx.lineTo(-9,  bob-59);
+    ctx.lineTo(-12, bob-54);
+    ctx.lineTo(-8,  bob-50);
+    ctx.closePath();
+  }
+  ctx.fill();
+  ctx.shadowBlur=0;
+
+  // Venom teeth (enemy only)
+  if (isEnemy) {
+    ctx.fillStyle='#FFFFFF';
+    ctx.fillRect(-10, bob-44, 20, 5);
+    ctx.fillStyle='#111';
+    for(let t=0;t<5;t++) ctx.fillRect(-9+t*4, bob-44, 2, 5);
+    // Tongue
+    ctx.fillStyle='#FF0000';
+    ctx.fillRect(-4, bob-40, 8, 5);
+  }
+
+  // Web swing rope effect
+  if (!isEnemy && player.webSwingActive) {
+    ctx.strokeStyle='rgba(200,200,255,0.7)';
+    ctx.lineWidth=2;
+    ctx.shadowBlur=8; ctx.shadowColor='#8888FF';
+    ctx.beginPath();
+    ctx.moveTo(0,bob-55);
+    ctx.quadraticCurveTo(dir*40,bob-100,dir*80,bob-130);
+    ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+
+  // Maximum Carnage special FX
+  if (state==='special') {
+    ctx.strokeStyle=isEnemy?'#FF0000':'#FF00CC';
+    ctx.lineWidth=4;
+    ctx.shadowBlur=30; ctx.shadowColor=isEnemy?'#FF0000':'#FF00CC';
+    for(let ri=0;ri<4;ri++){
+      ctx.globalAlpha=0.8-ri*0.15;
+      ctx.beginPath(); ctx.arc(dir*24,bob-28,16+ri*16,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.globalAlpha=1; ctx.shadowBlur=0;
+  }
+
+  // Hit flash
+  if(state==='hit'){
+    ctx.fillStyle='rgba(255,255,255,0.45)';
+    ctx.fillRect(-16,bob-62,32,72);
+  }
+
+  ctx.restore();
+}
+
+// ============================================================
+// BACKGROUND
+// ============================================================
+function drawBackground() {
+  bgOffset=(bgOffset+0.35)%W;
+  const t=frameCount*0.01;
+  const grad=ctx.createLinearGradient(0,0,0,GROUND);
+  grad.addColorStop(0,`hsl(${240+Math.sin(t)*18},60%,4%)`);
+  grad.addColorStop(0.6,`hsl(${260+Math.cos(t)*14},50%,6%)`);
+  grad.addColorStop(1,'hsl(220,40%,8%)');
+  ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+
+  ctx.fillStyle='#050010';
+  [[0,80,70,220],[80,50,60,250],[150,100,80,200],[240,30,55,270],[305,90,70,210],
+   [385,60,65,240],[460,110,75,190],[545,40,60,260],[615,70,80,230],[705,50,70,250],
+   [785,80,75,220],[870,30,90,270]].forEach(([bx,by,bw,bh])=>{
+    const rx=((bx-bgOffset+W*2)%(W+100));
+    ctx.fillRect(rx,by,bw,bh);
+    for(let wy=by+12;wy<by+bh-10;wy+=18){
+      for(let wx=rx+8;wx<rx+bw-8;wx+=14){
+        if((frameCount+wx+wy)%90<70){
+          ctx.fillStyle=Math.random()>0.7?'#FF220011':'#4444FF15';
+          ctx.fillRect(wx,wy,5,7);
+          ctx.fillStyle='#050010';
+        }
+      }
+    }
+  });
+
+  const col=selectedChar==='wolverine'?'255,215,0':'200,0,0';
+  for(let i=0;i<8;i++){
+    const p=((frameCount*2+i*30)%300)/300;
+    ctx.strokeStyle=`rgba(${col},${Math.sin(p*Math.PI)*0.22})`;
+    ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(p*W,GROUND); ctx.lineTo(p*W-40,H); ctx.stroke();
+  }
+
+  const gGrad=ctx.createLinearGradient(0,GROUND,0,H);
+  gGrad.addColorStop(0,'#0a0020'); gGrad.addColorStop(1,'#02000A');
+  ctx.fillStyle=gGrad; ctx.fillRect(0,GROUND,W,H-GROUND);
+
+  const lc=selectedChar==='wolverine'?'#FFD700':'#CC0000';
+  ctx.strokeStyle=lc; ctx.lineWidth=3;
+  ctx.shadowBlur=12; ctx.shadowColor=lc;
+  ctx.beginPath(); ctx.moveTo(0,GROUND); ctx.lineTo(W,GROUND); ctx.stroke();
+  ctx.shadowBlur=0;
+
+  ctx.font='11px "Press Start 2P"';
+  ctx.fillStyle='#FFFFFF06'; ctx.textAlign='center';
+  ctx.fillText('BACKLOG STAGE — BUENOS AIRES',W/2,H-16);
+}
+
+// ============================================================
+// PHYSICS & COLLISION
+// ============================================================
+function updatePhysics(e){
+  e.vy+=GRAVITY; e.x+=e.vx; e.y+=e.vy;
+  if(e.y>=GROUND){e.y=GROUND;e.vy=0;e.onGround=true;}
+  e.x=Math.max(40,Math.min(W-40,e.x));
+}
+function checkHit(atk,def,dmg,reach){
+  const dx=Math.abs(atk.x-def.x);
+  if(dx<reach&&def.invincible<=0&&def.state!=='ko'){
+    def.health=Math.max(0,def.health-dmg);
+    def.state='hit'; def.stateTimer=18; def.invincible=22;
+    const d=atk.facing?1:-1; def.vx=d*6; def.vy=-4;
+    return true;
+  }
+  return false;
+}
+
+// ============================================================
+// AI
+// ============================================================
+function updateAI(){
+  if(['hit','ko'].includes(enemy.state))return;
+  enemy.aiTimer--;
+  if(enemy.aiTimer<=0){
+    const r=Math.random();
+    enemy.aiMode=r<0.38?'approach':r<0.65?'attack':'retreat';
+    enemy.aiTimer=25+Math.floor(Math.random()*55);
+  }
+  const dx=player.x-enemy.x, dist=Math.abs(dx);
+  enemy.facing=dx<0;
+  if(enemy.aiMode==='approach'&&dist>90){enemy.vx=dx>0?3.2:-3.2;enemy.state='walk';}
+  else if(enemy.aiMode==='retreat'){enemy.vx=dx>0?-2:2;enemy.state='walk';}
+  else{enemy.vx*=0.4;if(enemy.state==='walk')enemy.state='idle';}
+  if(enemy.onGround&&Math.random()<0.003&&dist>150){enemy.vy=JUMP_FORCE*0.85;enemy.onGround=false;enemy.state='jump';}
+  enemy.attackTimer--;
+  if(dist<130&&enemy.attackTimer<=0&&!['hit','ko','jump'].includes(enemy.state)){
+    enemy.state='attack'; enemy.stateTimer=22;
+    enemy.attackTimer=50+Math.floor(Math.random()*70);
+    const dmg=5+Math.floor(Math.random()*7);
+    if(checkHit(enemy,player,dmg,140)){
+      spawnParticles(player.x,player.y-34,'#FF2200',8);
+      spawnText(player.x,player.y-75,`-${dmg}`,'#FF2200');
+      updateHealthBars();
+      if(player.health<=0){player.state='ko';endGame();}
+    }
+  }
+}
+
+// ============================================================
+// INPUT
+// ============================================================
+const keys={};
+document.addEventListener('keydown',e=>{
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();
+  keys[e.key]=true;
+  if(e.key==='Enter'&&gameState!=='playing')startGame();
+});
+document.addEventListener('keyup',e=>{keys[e.key]=false;});
+
+function handlePlayerInput(){
+  if(player.state==='ko')return;
+  if(player.stateTimer>0){player.stateTimer--;if(player.stateTimer===0&&player.state!=='jump')player.state='idle';}
+  if(player.invincible>0)player.invincible--;
+  if(player.comboTimer>0)player.comboTimer--;else player.comboCount=0;
+  if(player.webSwingTimer>0){player.webSwingTimer--;if(player.webSwingTimer===0)player.webSwingActive=false;}
+  if(['punch','kick','special','hit'].includes(player.state))return;
+
+  let moving=false;
+  if(keys['ArrowLeft']||keys['a']||keys['A']){player.vx=-MOVE_SPEED;player.facing=false;moving=true;}
+  else if(keys['ArrowRight']||keys['d']||keys['D']){player.vx=MOVE_SPEED;player.facing=true;moving=true;}
+  else player.vx*=0.55;
+  if(moving&&player.onGround)player.state='walk';
+  if((keys['ArrowUp']||keys['w']||keys['W'])&&player.onGround){
+    player.vy=JUMP_FORCE;player.onGround=false;player.state='jump';
+  }
+
+  const isWlv=selectedChar==='wolverine';
+
+  // W+J — Dive Claws / Web Swing
+  if((keys['j']||keys['J'])&&(keys['ArrowUp']||keys['w']||keys['W'])&&!player.onGround){
+    keys['j']=keys['J']=false;
+    if(isWlv){
+      // Dive Claws — slam down
+      player.state='punch'; player.stateTimer=18;
+      player.vy=8; // dive
+      const dmg=16;
+      if(checkHit(player,enemy,dmg,130)){
+        score+=dmg*12; updateScore(); addSuper(1);
+        spawnParticles(enemy.x,enemy.y-40,'#FFD700',12,6);
+        spawnRing(enemy.x,enemy.y-40,'#FFD700');
+        spawnText(enemy.x,enemy.y-90,'DIVE CLAWS!','#FFD700',13);
+        spawnText(enemy.x+20,enemy.y-110,`-${dmg}`,'#FFE000',11);
+        updateHealthBars();
+        if(enemy.health<=0){enemy.state='ko';endGame();}
+      }
+    } else {
+      // Web Swing
+      player.webSwingActive=true; player.webSwingTimer=30;
+      player.vy=-8;
+      const dmg=12;
+      if(checkHit(player,enemy,dmg,200)){
+        score+=dmg*12; updateScore(); addSuper(1);
+        spawnParticles(enemy.x,enemy.y-40,'#ffffff',10,5);
+        spawnWeb(player.x,player.y-55,enemy.x,enemy.y-40);
+        spawnText(enemy.x,enemy.y-90,'WEB SWING!','#fff',13);
+        spawnText(enemy.x+20,enemy.y-110,`-${dmg}`,'#FFE000',11);
+        updateHealthBars();
+        if(enemy.health<=0){enemy.state='ko';endGame();}
+      }
+    }
+    return;
+  }
+
+  // J — Slash / Web Shoot
+  if(keys['j']||keys['J']){
+    keys['j']=keys['J']=false;
+    player.state='punch'; player.stateTimer=15;
+    player.comboCount++; player.comboTimer=40;
+    const dmg=isWlv?(10+player.comboCount*2):(8+player.comboCount);
+    if(checkHit(player,enemy,dmg,isWlv?145:165)){
+      score+=dmg*10; updateScore(); addSuper(1);
+      const col=isWlv?'#FFD700':'#ffffff';
+      spawnParticles(enemy.x,enemy.y-40,col,8);
+      spawnRing(enemy.x,enemy.y-40,col);
+      const t=isWlv?['SNIKT!','SLASH!','HIT!']:['THWIP!','WEB HIT!','GOT EM!'];
+      spawnText(enemy.x,enemy.y-82,t[Math.floor(Math.random()*t.length)],col,13);
+      spawnText(enemy.x+22,enemy.y-104,`-${dmg}`,'#FFE000',11);
+      if(!isWlv) spawnWeb(player.x,player.y-32,enemy.x,enemy.y-32);
+      updateHealthBars();
+      if(enemy.health<=0){enemy.state='ko';endGame();}
+    }
+  }
+
+  // K — Berserker Barrage / Spider Kick
+  if(keys['k']||keys['K']){
+    keys['k']=keys['K']=false;
+    player.state='kick'; player.stateTimer=22;
+    player.berserkerHits=isWlv?3:0;
+    player.comboCount++; player.comboTimer=40;
+    const dmg=isWlv?(14+player.comboCount):(12+player.comboCount);
+    if(checkHit(player,enemy,dmg,isWlv?155:168)){
+      score+=dmg*15; updateScore(); addSuper(1);
+      const col=isWlv?'#FF6A00':'#CC0000';
+      spawnParticles(enemy.x,enemy.y-24,col,12,5);
+      spawnRing(enemy.x,enemy.y-24,col);
+      spawnText(enemy.x,enemy.y-82,isWlv?'BERSERKER!':'SPIDER KICK!',col,12);
+      spawnText(enemy.x+22,enemy.y-106,`-${dmg}`,'#FFE000',11);
+      updateHealthBars();
+      if(enemy.health<=0){enemy.state='ko';endGame();}
+    }
+  }
+
+  // L — Hyper Combo (cost 3 super)
+  if(keys['l']||keys['L']){
+    keys['l']=keys['L']=false;
+    if(superMeter>=3){
+      superMeter=0; updateSuperUI();
+      player.state='special'; player.stateTimer=35;
+      const dmg=isWlv?35:32;
+      if(checkHit(player,enemy,dmg,215)){
+        score+=isWlv?950:880; updateScore();
+        const c1=isWlv?'#FFD700':'#FF00CC';
+        const c2=isWlv?'#FF6A00':'#CC0000';
+        spawnParticles(enemy.x,enemy.y-44,c1,22,7);
+        spawnParticles(enemy.x,enemy.y-44,c2,14,5);
+        spawnRing(enemy.x,enemy.y-44,c1);
+        spawnRing(enemy.x,enemy.y-44,c2);
+        const htxt=isWlv?'BERSERKER HYPER!!':'MAXIMUM CARNAGE!!';
+        spawnText(enemy.x,enemy.y-96,htxt,c1,11);
+        spawnText(enemy.x,enemy.y-118,`-${dmg}`,c1,14);
+        updateHealthBars();
+        if(enemy.health<=0){enemy.state='ko';endGame();}
+      }
+    } else {
+      spawnText(player.x,player.y-80,'NEED 3✦ SUPER!','#FF6600',10);
+    }
+  }
+
+  if(!moving&&player.state==='walk')player.state='idle';
+}
+
+// ============================================================
+// HUD
+// ============================================================
+function addSuper(n){superMeter=Math.min(5,superMeter+n);updateSuperUI();}
+function updateSuperUI(){
+  for(let i=0;i<5;i++){
+    const p=document.getElementById(`pip${i}`);
+    if(p)p.className='super-pip'+(i<superMeter?' filled':'');
+  }
+  const l=document.getElementById('superLabel');
+  if(l)l.textContent=`${superMeter} / 5`;
+}
+function updateHealthBars(){
+  document.getElementById('p1health').style.width=(player.health/player.maxHealth*100)+'%';
+  document.getElementById('p2health').style.width=(enemy.health/enemy.maxHealth*100)+'%';
+}
+function updateScore(){
+  document.getElementById('score').textContent=String(score).padStart(6,'0');
+}
+
+// ============================================================
+// GAME FLOW
+// ============================================================
+function startGame(){
+  const isWlv=selectedChar==='wolverine';
+  player.x=160;player.y=GROUND;player.vx=0;player.vy=0;
+  player.health=100;player.state='idle';player.stateTimer=0;
+  player.facing=true;player.onGround=true;player.invincible=0;
+  player.comboCount=0;player.comboTimer=0;player.webSwingActive=false;player.webSwingTimer=0;player.berserkerHits=0;
+  enemy.x=760;enemy.y=GROUND;enemy.vx=0;enemy.vy=0;
+  enemy.health=100;enemy.state='idle';enemy.stateTimer=0;
+  enemy.facing=false;enemy.onGround=true;enemy.attackTimer=0;enemy.invincible=0;enemy.aiTimer=0;
+  particles.length=0;hitTexts.length=0;energyRings.length=0;webLines.length=0;
+  score=0;timer=99;superMeter=0;
+  updateScore();updateHealthBars();updateSuperUI();
+  document.getElementById('p1name').textContent=isWlv?'WOLVERINE':'SPIDER-MAN';
+  document.getElementById('p2name').textContent=isWlv?'DARK SPIDEY':'BERSERKER';
+  document.getElementById('p1name').style.color=isWlv?'#FFD700':'#FF4444';
+  document.getElementById('timer').textContent='99';
+  gameState='playing';
+  if(timerInterval)clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    if(gameState==='playing'){
+      timer=Math.max(0,timer-1);
+      document.getElementById('timer').textContent=String(timer).padStart(2,'0');
+      if(timer===0)endGame();
+    }
+  },1000);
+}
+
+function endGame(){
+  clearInterval(timerInterval);
+  gameState=enemy.health<=0?'win':player.health<=0?'lose':(player.health>=enemy.health?'win':'lose');
+  if(score>hiScore){hiScore=score;document.getElementById('hiscore').textContent=String(hiScore).padStart(6,'0');}
+}
+
+// ============================================================
+// SCREENS
+// ============================================================
+function drawCharSelect(){
+  const grad=ctx.createLinearGradient(0,0,W,H);
+  grad.addColorStop(0,'#050015');grad.addColorStop(0.5,'#0d0005');grad.addColorStop(1,'#000a1a');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  // Background web lines for atmosphere
+  ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+  for(let wl=0;wl<12;wl++){
+    ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(wl*(W/11),H);ctx.stroke();
+  }
+
+  ctx.textAlign='center';
+  const flash=Math.floor(frameCount/8)%3;
+  const fc=['#FFD700','#CC0000','#FFFFFF'][flash];
+  ctx.font='14px "Press Start 2P"';
+  ctx.fillStyle=fc; ctx.shadowBlur=20; ctx.shadowColor=fc;
+  ctx.fillText('SELECT YOUR FIGHTER',W/2,55);
+  ctx.shadowBlur=0;
+
+  // Draw Wolverine preview (left)
+  ctx.save(); ctx.scale(1.1,1.1);
+  drawWolverine(215, 330, selectedChar==='wolverine'?'idle':'idle', true, null);
+  ctx.restore();
+
+  // Draw Spider-Man preview (right)
+  ctx.save(); ctx.scale(1.1,1.1);
+  drawSpiderMan(660, 330, selectedChar==='spidey'?'idle':'idle', false, selectedChar!=='spidey');
+  ctx.restore();
+
+  // Name labels
+  ctx.font='9px "Press Start 2P"';
+  ctx.fillStyle=selectedChar==='wolverine'?'#FFD700':'#444422';
+  ctx.textAlign='left'; ctx.fillText('WOLVERINE',140,385);
+  ctx.fillStyle=selectedChar==='spidey'?'#FF4444':'#442222';
+  ctx.textAlign='right'; ctx.fillText('SPIDER-MAN',820,385);
+
+  // VS
+  ctx.font='22px "Press Start 2P"';
+  ctx.fillStyle='#333355'; ctx.textAlign='center';
+  ctx.fillText('VS',W/2,310);
+
+  // Blink prompt
+  if(Math.floor(frameCount/26)%2===0){
+    ctx.font='8px "Press Start 2P"';
+    ctx.fillStyle='#FFD700'; ctx.shadowBlur=12; ctx.shadowColor='#FFD700';
+    ctx.fillText('PICK FIGHTER ABOVE — PRESS ENTER!',W/2,420);
+    ctx.shadowBlur=0;
+  }
+}
+
+function drawEndScreen(){
+  ctx.fillStyle='rgba(0,0,0,0.82)'; ctx.fillRect(0,0,W,H);
+  ctx.textAlign='center';
+  const c=gameState==='win'?(Math.floor(frameCount/6)%2===0?'#FFD700':'#FF00CC'):'#FF1C1C';
+  ctx.fillStyle=c; ctx.font='26px "Press Start 2P"';
+  ctx.shadowBlur=28; ctx.shadowColor=c;
+  ctx.fillText(gameState==='win'?'YOU WIN!':'GAME OVER',W/2,130);
+  ctx.shadowBlur=0;
+  ctx.fillStyle=gameState==='win'?'#00FF88':'#FF6600';
+  ctx.font='9px "Press Start 2P"';
+  ctx.fillText(gameState==='win'?'BACKLOG DEFEATED!':'THE BACKLOG WINS...',W/2,172);
+  ctx.fillStyle='#00E5FF'; ctx.font='9px "Press Start 2P"';
+  ctx.fillText(`SCORE: ${String(score).padStart(6,'0')}`,W/2,220);
+  if(Math.floor(frameCount/28)%2===0){
+    ctx.fillStyle='#fff'; ctx.font='7px "Press Start 2P"';
+    ctx.fillText('PRESS ENTER TO PLAY AGAIN',W/2,268);
+  }
+}
+
+// ============================================================
+// MAIN LOOP
+// ============================================================
+function gameLoop(){
+  frameCount++;
+  ctx.clearRect(0,0,W,H);
+
+  if(gameState==='charselect'){drawCharSelect();requestAnimationFrame(gameLoop);return;}
+
+  if(gameState==='win'||gameState==='lose'){
+    drawBackground();
+    if(selectedChar==='wolverine') drawWolverine(player.x,player.y,player.state,player.facing,null);
+    else drawSpiderMan(player.x,player.y,player.state,player.facing,false);
+    if(selectedChar==='wolverine') drawSpiderMan(enemy.x,enemy.y,enemy.state,enemy.facing,true);
+    else drawWolverine(enemy.x,enemy.y,enemy.state,enemy.facing,null);
+    drawEndScreen();
+    requestAnimationFrame(gameLoop);
+    return;
+  }
+
+  // Update
+  handlePlayerInput();
+  updateAI();
+  if(enemy.stateTimer>0){enemy.stateTimer--;if(enemy.stateTimer===0&&enemy.state!=='ko')enemy.state='idle';}
+  if(enemy.invincible>0)enemy.invincible--;
+  updatePhysics(player);
+  updatePhysics(enemy);
+
+  drawBackground();
+
+  // Web lines
+  for(let i=webLines.length-1;i>=0;i--){
+    const w=webLines[i]; w.life--;
+    if(w.life<=0){webLines.splice(i,1);continue;}
+    const a=w.life/w.maxLife;
+    ctx.strokeStyle=`rgba(200,200,255,${a*0.8})`;
+    ctx.lineWidth=2; ctx.shadowBlur=8; ctx.shadowColor='#8888FF';
+    ctx.beginPath(); ctx.moveTo(w.x1,w.y1); ctx.lineTo(w.x2,w.y2); ctx.stroke();
+    ctx.shadowBlur=0;
+  }
+
+  // Energy rings
+  for(let i=energyRings.length-1;i>=0;i--){
+    const r=energyRings[i]; r.r+=5; r.life--;
+    if(r.life<=0){energyRings.splice(i,1);continue;}
+    ctx.globalAlpha=r.life/r.maxLife*0.8;
+    ctx.strokeStyle=r.color; ctx.lineWidth=3;
+    ctx.shadowBlur=14; ctx.shadowColor=r.color;
+    ctx.beginPath(); ctx.arc(r.x,r.y,r.r,0,Math.PI*2); ctx.stroke();
+    ctx.globalAlpha=1; ctx.shadowBlur=0;
+  }
+
+  // Particles
+  for(let i=particles.length-1;i>=0;i--){
+    const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vy+=0.22; p.life--;
+    if(p.life<=0){particles.splice(i,1);continue;}
+    ctx.globalAlpha=p.life/p.maxLife;
+    ctx.fillStyle=p.color; ctx.shadowBlur=8; ctx.shadowColor=p.color;
+    ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+    ctx.shadowBlur=0; ctx.globalAlpha=1;
+  }
+
+  // Draw characters
+  if(selectedChar==='wolverine'){
+    drawWolverine(player.x,player.y,player.state,player.facing,null);
+    drawSpiderMan(enemy.x,enemy.y,enemy.state,enemy.facing,true);
+  } else {
+    drawSpiderMan(player.x,player.y,player.state,player.facing,false);
+    drawWolverine(enemy.x,enemy.y,enemy.state,enemy.facing,null);
+  }
+
+  // Hit texts
+  for(let i=hitTexts.length-1;i>=0;i--){
+    const ht=hitTexts[i]; ht.y+=ht.vy; ht.life--;
+    if(ht.life<=0){hitTexts.splice(i,1);continue;}
+    const a=Math.min(1,ht.life/(ht.maxLife*0.4));
+    ctx.globalAlpha=a;
+    ctx.font=`bold ${ht.size}px "Press Start 2P"`;
+    ctx.fillStyle=ht.color; ctx.shadowBlur=18; ctx.shadowColor=ht.color;
+    ctx.textAlign='center'; ctx.fillText(ht.text,ht.x,ht.y);
+    ctx.shadowBlur=0; ctx.globalAlpha=1;
+  }
+
+  // Combo display
+  if(player.comboCount>=2&&player.comboTimer>0){
+    const cc=player.comboCount;
+    const col=cc>=5?'#FF00CC':cc>=3?'#FFE000':(selectedChar==='wolverine'?'#FFD700':'#FF4444');
+    ctx.font='9px "Press Start 2P"'; ctx.fillStyle=col;
+    ctx.shadowBlur=14; ctx.shadowColor=col; ctx.textAlign='left';
+    ctx.fillText(`${cc}x COMBO!`,20,46); ctx.shadowBlur=0;
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+</body>
+</html>
