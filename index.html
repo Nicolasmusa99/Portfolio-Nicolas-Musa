@@ -983,7 +983,7 @@ footer span { color: var(--yellow); }
 
     <div class="cta-buttons">
       <a href="#experience" class="btn btn-yellow">VIEW EXPERIENCE</a>
-      <a href="/cdn-cgi/l/email-protection#305e59535f5c51435d4543511e5e5d70575d51595c1e535f5d" class="btn btn-outline">SEND MESSAGE</a>
+      <a href="#" id="btn-send-msg" class="btn btn-outline">SEND MESSAGE</a>
     </div>
   </div>
 </div>
@@ -1129,7 +1129,7 @@ footer span { color: var(--yellow); }
       Based in Buenos Aires, Argentina.
     </p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#4f21262c20232e3c223a3c2e6121220f28222e2623612c2022" class="btn btn-yellow">EMAIL ME</a>
+      <a href="#" id="btn-email-me" class="btn btn-yellow">EMAIL ME</a>
       <a href="https://www.linkedin.com/in/nicolas-musa/" target="_blank" class="btn btn-outline">LINKEDIN</a>
     </div>
   </div>
@@ -1374,6 +1374,15 @@ footer span { color: var(--yellow); }
 <script>
 // Attach card clicks via JS — avoids Cloudflare onclick interference
 document.addEventListener('DOMContentLoaded', function() {
+  // Build email at runtime so Cloudflare can't obfuscate it
+  var u = 'nicolasmusa.nm';
+  var d = 'gmail.com';
+  var mailto = 'mailto:' + u + '@' + d;
+  var s = document.getElementById('btn-send-msg');
+  var e = document.getElementById('btn-email-me');
+  if (s) s.setAttribute('href', mailto);
+  if (e) e.setAttribute('href', mailto);
+
   var wCard = document.getElementById('card-wolverine');
   var sCard = document.getElementById('card-spidey');
   if (wCard) wCard.addEventListener('click', function(){ selectChar('wolverine'); });
