@@ -1,9 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NICOLAS MUSA — PM</title>
+<title>Nicolas Musa · Product Manager · Data &amp; AI</title>
+<meta name="description" content="Nicolas Musa, Product Manager focused on data and AI products. 5+ years building B2B SaaS and marketplace products end to end. Buenos Aires, Argentina.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://portfolio-nicolas-musa.vercel.app/">
+<meta property="og:title" content="Nicolas Musa · Product Manager · Data &amp; AI">
+<meta property="og:description" content="5+ years building B2B SaaS and marketplace products end to end. Hands-on with SQL, analytics and AI prototyping.">
+<meta property="og:image" content="https://portfolio-nicolas-musa.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://portfolio-nicolas-musa.vercel.app/og.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Russo+One&family=VT323&family=Orbitron:wght@400;700;900&display=swap');
 
@@ -29,6 +39,17 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* LANGUAGE TOGGLE */
+html[data-lang="en"] [lang="es"], html[data-lang="es"] [lang="en"] { display: none !important; }
+.lang-toggle { display: flex; gap: 4px; }
+.lang-toggle button {
+  font-family: 'Press Start 2P', monospace; font-size: 8px; letter-spacing: 1px;
+  background: transparent; color: #666688; border: 1px solid #333355;
+  padding: 6px 8px; cursor: pointer;
+}
+html[data-lang="en"] .lang-toggle [data-set="en"],
+html[data-lang="es"] .lang-toggle [data-set="es"] { color: var(--black); background: var(--yellow); border-color: var(--yellow); }
 html { scroll-behavior: smooth; }
 
 body {
@@ -111,7 +132,7 @@ nav {
 
 .nav-links a {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 9px;
   color: var(--cyan);
   text-decoration: none;
   text-shadow: var(--glow-cyan);
@@ -228,7 +249,7 @@ nav {
 
 .hero-tag {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 9px;
   color: var(--green);
   text-shadow: var(--glow-green);
   letter-spacing: 3px;
@@ -331,7 +352,7 @@ nav {
 }
 .power-stat-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 8px;
   color: #666688;
   letter-spacing: 2px;
   margin-bottom: 8px;
@@ -367,7 +388,7 @@ nav {
 }
 .mvc-bar-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 8px;
   color: #888;
   width: 80px;
   flex-shrink: 0;
@@ -418,7 +439,7 @@ nav {
 /* MvC style buttons */
 .btn {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 9px;
   padding: 14px 26px;
   text-decoration: none;
   letter-spacing: 1px;
@@ -431,6 +452,8 @@ nav {
   display: inline-block;
 }
 .btn::before { content: '▶ '; }
+.btn.copied::after { content: ' · COPIED ✓'; }
+html[data-lang="es"] .btn.copied::after { content: ' · COPIADO ✓'; }
 
 .btn-yellow {
   color: var(--black);
@@ -489,8 +512,8 @@ nav {
 
 .section-sub {
   font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: #555577;
+  font-size: 19px;
+  color: #7777aa;
   margin-bottom: 48px;
   letter-spacing: 2px;
 }
@@ -534,7 +557,7 @@ nav {
 .stage-badge {
   display: inline-block;
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 8px;
   padding: 5px 12px;
   margin-bottom: 16px;
   letter-spacing: 1px;
@@ -569,8 +592,8 @@ nav {
 
 .card-period {
   font-family: 'VT323', monospace;
-  font-size: 17px;
-  color: #444466;
+  font-size: 18px;
+  color: #7777aa;
   margin-bottom: 20px;
   letter-spacing: 2px;
 }
@@ -594,7 +617,7 @@ nav {
 .card-chips { display: flex; gap: 10px; flex-wrap: wrap; }
 .chip {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 8px;
   padding: 6px 12px;
   letter-spacing: 1px;
   clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
@@ -609,7 +632,7 @@ nav {
 /* ============================
    PROJECTS — Side Quests
    ============================ */
-.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
 .proj-card {
   background: #060414;
   border: 2px solid #1a1440;
@@ -622,7 +645,7 @@ nav {
 .proj-card:hover { border-color: var(--green); box-shadow: var(--glow-green); }
 .proj-status {
   font-family: 'Press Start 2P', monospace;
-  font-size: 6px;
+  font-size: 8px;
   color: var(--green);
   letter-spacing: 2px;
   margin-bottom: 12px;
@@ -647,7 +670,7 @@ nav {
 .proj-stack .chip { border: 1px solid var(--green); color: var(--green); }
 .proj-link {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 9px;
   color: var(--cyan);
   text-shadow: var(--glow-cyan);
   text-decoration: none;
@@ -665,7 +688,7 @@ nav {
 }
 .skills-category-title {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 2px;
   margin-bottom: 20px;
   padding: 6px 0 6px 14px;
@@ -723,7 +746,7 @@ nav {
 }
 .edu-school {
   font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
+  font-size: 9px;
   color: var(--gold);
   text-shadow: var(--glow-gold);
   letter-spacing: 1px;
@@ -922,7 +945,7 @@ nav {
 }
 .contact-pretitle {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 9px;
   color: var(--magenta);
   text-shadow: var(--glow-magenta);
   letter-spacing: 3px;
@@ -953,7 +976,7 @@ footer {
   text-align: center;
   padding: 28px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 8px;
   color: #222244;
   letter-spacing: 2px;
 }
@@ -965,13 +988,13 @@ footer span { color: var(--yellow); }
 @media (max-width: 640px) {
   nav { padding: 10px 16px; }
   .nav-links { gap: 10px; }
-  .nav-links a { font-size: 6px; padding: 4px 6px; }
+  .nav-links a { font-size: 7px; padding: 4px 6px; }
   .section-wrap { padding: 60px 16px; }
   .power-stats { gap: 8px; }
   .power-stat { min-width: 110px; }
   .edu-grid { grid-template-columns: 1fr; }
   .contact-box { padding: 30px 20px; clip-path: none; }
-  .btn { font-size: 7px; padding: 12px 18px; }
+  .btn { font-size: 8px; padding: 12px 18px; }
 }
 </style>
 </head>
@@ -981,14 +1004,14 @@ footer span { color: var(--yellow); }
 <nav>
   <div class="nav-logo">NM<span>.</span>EXE</div>
   <ul class="nav-links">
-    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#about"><span lang="en">ABOUT</span><span lang="es">INICIO</span></a></li>
     <li><a href="#experience">XP</a></li>
-    <li><a href="#projects">PROJECTS</a></li>
-    <li><a href="#skills">SKILLS</a></li>
-    <li><a href="#contact">CONTACT</a></li>
-    <li class="nav-play"><a href="#game">PLAY</a></li>
+    <li><a href="#projects"><span lang="en">PROJECTS</span><span lang="es">PROYECTOS</span></a></li>
+    <li><a href="#skills"><span lang="en">SKILLS</span><span lang="es">HABILIDADES</span></a></li>
+    <li><a href="#contact"><span lang="en">CONTACT</span><span lang="es">CONTACTO</span></a></li>
+    <li class="nav-play"><a href="#game"><span lang="en">PLAY</span><span lang="es">JUGAR</span></a></li>
   </ul>
-  <div class="insert-coin">INSERT COIN</div>
+  <div class="lang-toggle"><button type="button" data-set="en">EN</button><button type="button" data-set="es">ES</button></div>
 </nav>
 
 <!-- HERO -->
@@ -998,14 +1021,17 @@ footer span { color: var(--yellow); }
   <div class="hero-grid"></div>
   <div class="hero-vs-line"></div>
   <div class="hero-content">
-    <div class="hero-tag">▶ CHARACTER SELECT · STAGE 1 OF 4</div>
+    <div class="hero-tag"><span lang="en">▶ CHARACTER SELECT · STAGE 1 OF 4</span><span lang="es">▶ JUGADOR 1 · NIVEL 1 DE 4</span></div>
     <h1 class="hero-title">NICOLAS<br>MUSA</h1>
     <div class="hero-nameplate"><span>PRODUCT MANAGER · DATA &amp; AI</span></div>
     <p class="hero-desc">
-      Product manager focused on <strong>data &amp; AI products</strong>.<br>
+<span lang="en">      Product manager focused on <strong>data &amp; AI products</strong>.<br>
       5+ years building B2B SaaS and marketplace products end to end: discovery, strategy, delivery and measurement.<br>
       Hands-on and technical: SQL, analytics instrumentation and working prototypes in React/TypeScript with Claude Code.<br>
-      Based in Buenos Aires, Argentina.
+      Based in Buenos Aires, Argentina.</span><span lang="es">      Product manager enfocado en <strong>productos de datos e IA</strong>.<br>
+      Más de 5 años construyendo productos B2B SaaS y marketplaces de punta a punta: discovery, estrategia, delivery y medición.<br>
+      Hands-on y técnico: SQL, instrumentación de analytics y prototipos funcionales en React/TypeScript con Claude Code.<br>
+      Desde Buenos Aires, Argentina.</span>
     </p>
 
     <!-- MvC stat bars -->
@@ -1038,8 +1064,8 @@ footer span { color: var(--yellow); }
     </div>
 
     <div class="cta-buttons">
-      <a href="#experience" class="btn btn-yellow">VIEW EXPERIENCE</a>
-      <a href="#" class="btn btn-outline" onclick="navigator.clipboard.writeText('nicolasmusa.nm'+'@'+'gmail.com');this.textContent='> COPIADO ✓';setTimeout(()=>this.textContent='> SEND MESSAGE',2000);return false;">SEND MESSAGE</a>
+      <a href="#experience" class="btn btn-yellow"><span lang="en">VIEW EXPERIENCE</span><span lang="es">VER EXPERIENCIA</span></a>
+      <a href="#contact" id="btn-send-msg" class="btn btn-outline js-mail"><span lang="en">SEND MESSAGE</span><span lang="es">ESCRIBIME</span></a>
     </div>
   </div>
 </div>
@@ -1048,22 +1074,22 @@ footer span { color: var(--yellow); }
 <!-- EXPERIENCE -->
 <section id="experience" style="background:#02000A; padding:80px 0;">
 <div class="section-wrap">
-  <div class="section-header">EXPERIENCE</div>
-  <div class="section-sub">// CAREER TIMELINE — SELECT YOUR STAGE</div>
+  <div class="section-header"><span lang="en">EXPERIENCE</span><span lang="es">EXPERIENCIA</span></div>
+  <div class="section-sub"><span lang="en">// CAREER TIMELINE — SELECT YOUR STAGE</span><span lang="es">// TRAYECTORIA · ELEGÍ TU NIVEL</span></div>
 
   <div class="exp-grid">
 
     <!-- MERCADO LIBRE -->
     <div class="exp-card card-0">
       <div class="exp-card-inner">
-        <div class="stage-badge">STAGE 01 · CURRENT</div>
+        <div class="stage-badge"><span lang="en">STAGE 01 · CURRENT</span><span lang="es">NIVEL 01 · ACTUAL</span></div>
         <div class="card-company">MERCADO LIBRE</div>
-        <div class="card-role">PRODUCT SPECIALIST · DATA &amp; AI</div>
-        <div class="card-period">OCT 2026 · PRESENT · FINTECH PLATFORMS · BUENOS AIRES</div>
+        <div class="card-role"><span lang="en">PRODUCT SPECIALIST · DATA &amp; AI</span><span lang="es">ESPECIALISTA DE PRODUCTO · DATA &amp; AI</span></div>
+        <div class="card-period"><span lang="en">OCT 2026 · PRESENT · FINTECH PLATFORMS · BUENOS AIRES</span><span lang="es">OCT 2026 · ACTUALIDAD · PLATAFORMAS FINTECH · BUENOS AIRES</span></div>
         <ul class="card-bullets">
-          <li>Product role in the Data &amp; AI team inside Mercado Libre's fintech platforms.</li>
-          <li>Working on internal data products: data warehouse, semantic layer, metrics governance and GenAI capabilities.</li>
-          <li>Bringing a hands-on approach to agentic data experiences, from discovery to working prototypes.</li>
+          <li><span lang="en">Product role in the Data &amp; AI team inside Mercado Libre's fintech platforms.</span><span lang="es">Rol de producto en el equipo de Data &amp; AI dentro de las plataformas fintech de Mercado Libre.</span></li>
+          <li><span lang="en">Working on internal data products: data warehouse, semantic layer, metrics governance and GenAI capabilities.</span><span lang="es">Productos de datos internos: data warehouse, capa semántica, gobierno de métricas y capacidades de GenAI.</span></li>
+          <li><span lang="en">Bringing a hands-on approach to agentic data experiences, from discovery to working prototypes.</span><span lang="es">Enfoque hands-on en experiencias agénticas sobre datos, del discovery a prototipos funcionales.</span></li>
         </ul>
         <div class="card-chips">
           <span class="chip">DATA PLATFORMS</span>
@@ -1077,24 +1103,24 @@ footer span { color: var(--yellow); }
     <!-- DESKY -->
     <div class="exp-card card-1">
       <div class="exp-card-inner">
-        <div class="stage-badge">STAGE 02</div>
+        <div class="stage-badge"><span lang="en">STAGE 02</span><span lang="es">NIVEL 02</span></div>
         <div class="card-company">DESKY</div>
         <div class="card-role">PRODUCT MANAGER</div>
-        <div class="card-period">NOV 2024 · AUG 2026 · B2B SAAS / MARKETPLACE · LATAM &amp; SPAIN</div>
+        <div class="card-period"><span lang="en">NOV 2024 · AUG 2026 · B2B SAAS / MARKETPLACE · LATAM &amp; SPAIN</span><span lang="es">NOV 2024 · AGO 2026 · B2B SAAS / MARKETPLACE · LATAM Y ESPAÑA</span></div>
         <ul class="card-bullets">
-          <li>Owned the end-to-end roadmap of a B2B coworking marketplace with 20+ client companies and 750+ spaces across LATAM and Europe, reporting directly to the CEO.</li>
-          <li>Led a squad of 2 engineers and a designer through discovery, prioritization, delivery and launch.</li>
-          <li>Rebuilt analytics instrumentation in PostHog (event schemas in HogQL), fixed cohort contamination in conversion data and ran funnel analysis that drove a checkout redesign.</li>
-          <li>Redesigned onboarding and authentication flows (SSO, duplicate-user detection), reducing friction and improving activation.</li>
-          <li>Launched Office Manager features (booking approver, team lead roles, reporting dashboard) and simplified booking flows with automated validations, cutting manual interventions.</li>
-          <li>Improved lifecycle communications and reactivation flows based on user behavior, lifting retention and repeat usage.</li>
+          <li><span lang="en">Owned the end-to-end roadmap of a B2B coworking marketplace with 20+ client companies and 750+ spaces across LATAM and Europe, reporting directly to the CEO.</span><span lang="es">Responsable del roadmap de punta a punta de un marketplace B2B de coworkings con más de 20 empresas cliente y más de 750 espacios en LATAM y Europa, reportando directo al CEO.</span></li>
+          <li><span lang="en">Led a squad of 2 engineers and a designer through discovery, prioritization, delivery and launch.</span><span lang="es">Lideré un equipo de 2 ingenieros y un diseñador en discovery, priorización, delivery y lanzamiento.</span></li>
+          <li><span lang="en">Rebuilt analytics instrumentation in PostHog (event schemas in HogQL), fixed cohort contamination in conversion data and ran funnel analysis that drove a checkout redesign.</span><span lang="es">Rehice la instrumentación de analytics en PostHog (esquemas de eventos en HogQL), corregí la contaminación de cohortes en los datos de conversión e hice el análisis de funnel que impulsó el rediseño del checkout.</span></li>
+          <li><span lang="en">Redesigned onboarding and authentication flows (SSO, duplicate-user detection), reducing friction and improving activation.</span><span lang="es">Rediseñé el onboarding y la autenticación (SSO, detección de usuarios duplicados), reduciendo fricción y mejorando la activación.</span></li>
+          <li><span lang="en">Launched Office Manager features (booking approver, team lead roles, reporting dashboard) and simplified booking flows with automated validations, cutting manual interventions.</span><span lang="es">Lancé funcionalidades de Office Manager (aprobador de reservas, rol de líder de equipo, dashboard de reportes) y simplifiqué las reservas con validaciones automáticas, bajando las intervenciones manuales.</span></li>
+          <li><span lang="en">Improved lifecycle communications and reactivation flows based on user behavior, lifting retention and repeat usage.</span><span lang="es">Mejoré las comunicaciones de lifecycle y los flujos de reactivación según el comportamiento de los usuarios, subiendo retención y uso recurrente.</span></li>
         </ul>
         <div class="card-chips">
           <span class="chip">ACTIVATION</span>
           <span class="chip">CHECKOUT OPT.</span>
           <span class="chip">POSTHOG / HOGQL</span>
           <span class="chip">LIFECYCLE</span>
-          <span class="chip">REPORTING TO CEO</span>
+          <span class="chip"><span lang="en">REPORTING TO CEO</span><span lang="es">REPORTE AL CEO</span></span>
         </div>
       </div>
     </div>
@@ -1102,18 +1128,18 @@ footer span { color: var(--yellow); }
     <!-- TAKEOFF -->
     <div class="exp-card card-2">
       <div class="exp-card-inner">
-        <div class="stage-badge">STAGE 03</div>
+        <div class="stage-badge"><span lang="en">STAGE 03</span><span lang="es">NIVEL 03</span></div>
         <div class="card-company">TAKEOFF MEDIA</div>
         <div class="card-role">PRODUCT MANAGER</div>
-        <div class="card-period">2023 · 2024 · SAAS / DIGITAL PRODUCTS · URUGUAY</div>
+        <div class="card-period"><span lang="en">2023 · 2024 · SAAS / DIGITAL PRODUCTS · URUGUAY</span><span lang="es">2023 · 2024 · SAAS / PRODUCTOS DIGITALES · URUGUAY</span></div>
         <ul class="card-bullets">
-          <li>Managed 3 products in parallel, including the company's largest project (a 20-person team).</li>
-          <li>Helped establish product processes from scratch — user flows, documentation standards, and prioritization frameworks.</li>
-          <li>Coordinated cross-functional teams (engineering, design, stakeholders) to deliver digital products with clear scope and timelines.</li>
-          <li>Improved delivery quality and reduced rework by strengthening validation, documentation, and feedback loops.</li>
+          <li><span lang="en">Managed 3 products in parallel, including the company's largest project (a 20-person team).</span><span lang="es">Gestioné 3 productos en paralelo, incluido el proyecto más grande de la empresa (un equipo de 20 personas).</span></li>
+          <li><span lang="en">Helped establish product processes from scratch — user flows, documentation standards, and prioritization frameworks.</span><span lang="es">Armé procesos de producto desde cero: user flows, estándares de documentación y frameworks de priorización.</span></li>
+          <li><span lang="en">Coordinated cross-functional teams (engineering, design, stakeholders) to deliver digital products with clear scope and timelines.</span><span lang="es">Coordiné equipos cross-funcionales (ingeniería, diseño, stakeholders) para entregar productos digitales con alcance y plazos claros.</span></li>
+          <li><span lang="en">Improved delivery quality and reduced rework by strengthening validation, documentation, and feedback loops.</span><span lang="es">Mejoré la calidad de entrega y reduje retrabajo fortaleciendo validación, documentación y ciclos de feedback.</span></li>
         </ul>
         <div class="card-chips">
-          <span class="chip">0→1 PRODUCT OPS</span>
+          <span class="chip">0 TO 1 PRODUCT OPS</span>
           <span class="chip">CROSS-FUNCTIONAL</span>
           <span class="chip">DOCUMENTATION</span>
         </div>
@@ -1123,18 +1149,18 @@ footer span { color: var(--yellow); }
     <!-- LFI -->
     <div class="exp-card card-3">
       <div class="exp-card-inner">
-        <div class="stage-badge">STAGE 04</div>
+        <div class="stage-badge"><span lang="en">STAGE 04</span><span lang="es">NIVEL 04</span></div>
         <div class="card-company">LFI</div>
         <div class="card-role">PROJECT MANAGER</div>
-        <div class="card-period">2021 · 2023 · EDTECH / SAAS · CHILE</div>
+        <div class="card-period"><span lang="en">2021 · 2023 · EDTECH / SAAS · CHILE</span><span lang="es">2021 · 2023 · EDTECH / SAAS · CHILE</span></div>
         <ul class="card-bullets">
-          <li>Took an EdTech product from MVP to a commercial product used by 50+ companies, leading a team of about 10.</li>
-          <li>Led the full product lifecycle from concept to launch, aligning business objectives with scope and technical feasibility.</li>
-          <li>Defined requirements, user stories, and acceptance criteria for engineering teams.</li>
-          <li>Improved delivery predictability and reduced post-release issues through clearer validation and QA processes.</li>
+          <li><span lang="en">Took an EdTech product from MVP to a commercial product used by 50+ companies, leading a team of about 10.</span><span lang="es">Llevé un producto EdTech de MVP a producto comercializado usado por más de 50 empresas, liderando un equipo de unas 10 personas.</span></li>
+          <li><span lang="en">Led the full product lifecycle from concept to launch, aligning business objectives with scope and technical feasibility.</span><span lang="es">Lideré el ciclo completo de producto, del concepto al lanzamiento, alineando objetivos de negocio con alcance y factibilidad técnica.</span></li>
+          <li><span lang="en">Defined requirements, user stories, and acceptance criteria for engineering teams.</span><span lang="es">Definí requerimientos, user stories y criterios de aceptación para los equipos de ingeniería.</span></li>
+          <li><span lang="en">Improved delivery predictability and reduced post-release issues through clearer validation and QA processes.</span><span lang="es">Mejoré la previsibilidad de entrega y reduje incidentes post-release con procesos más claros de validación y QA.</span></li>
         </ul>
         <div class="card-chips">
-          <span class="chip">MVP → 50+ CLIENTS</span>
+          <span class="chip"><span lang="en">MVP TO 50+ CLIENTS</span><span lang="es">MVP A 50+ CLIENTES</span></span>
           <span class="chip">EDTECH</span>
           <span class="chip">USER STORIES</span>
           <span class="chip">QA PROCESSES</span>
@@ -1149,23 +1175,24 @@ footer span { color: var(--yellow); }
 <!-- PROJECTS -->
 <section id="projects" style="background:#02000A; padding:80px 0;">
 <div class="section-wrap">
-  <div class="section-header">PROJECTS</div>
-  <div class="section-sub">// SIDE QUESTS · THINGS I BUILD MYSELF</div>
+  <div class="section-header"><span lang="en">PROJECTS</span><span lang="es">PROYECTOS</span></div>
+  <div class="section-sub"><span lang="en">// SIDE QUESTS · THINGS I BUILD MYSELF</span><span lang="es">// SIDE QUESTS · COSAS QUE CONSTRUYO YO</span></div>
   <div class="proj-grid">
 
     <div class="proj-card">
-      <div class="proj-status">▶ LIVE · BETA</div>
+      <div class="proj-status"><span lang="en">▶ LIVE · BETA</span><span lang="es">▶ ONLINE · BETA</span></div>
       <div class="proj-name">ROADMAP STUDIO</div>
-      <p class="proj-desc">Dynamic roadmapping app. Started as a Product Owner case study and grew into a standalone product: multiple roadmaps, RICE prioritization, CSV import and local persistence, instrumented with PostHog to validate real usage before building multi-user features.</p>
+      <p class="proj-desc"><span lang="en">Dynamic roadmapping app. Started as a Product Owner case study and grew into a standalone product: multiple roadmaps, RICE prioritization, CSV import and local persistence, instrumented with PostHog to validate real usage before building multi-user features.</span><span lang="es">App de roadmapping dinámico. Arrancó como caso de Product Owner y creció hasta ser un producto propio: múltiples roadmaps, priorización RICE, importación de CSV y persistencia local, instrumentada con PostHog para validar el uso real antes de construir funcionalidades multiusuario.</span></p>
       <div class="proj-stack"><span class="chip">REACT</span><span class="chip">RICE</span><span class="chip">POSTHOG</span></div>
-      <a class="proj-link" href="https://roadmap-studio-beta.vercel.app" target="_blank" rel="noopener">▶ OPEN APP</a>
+      <a class="proj-link" href="https://roadmap-studio-beta.vercel.app" target="_blank" rel="noopener"><span lang="en">▶ OPEN APP</span><span lang="es">▶ ABRIR APP</span></a>
     </div>
 
     <div class="proj-card">
-      <div class="proj-status">▶ IN PROGRESS</div>
+      <div class="proj-status"><span lang="en">▶ LIVE · IN PROGRESS</span><span lang="es">▶ ONLINE · EN DESARROLLO</span></div>
       <div class="proj-name">MORLACO</div>
-      <p class="proj-desc">Personal expense tracker built as a PWA. Exploring AI-native input (logging expenses by voice or from a screenshot), data export for analysis with agents and more agentic features on top of personal finance data.</p>
+      <p class="proj-desc"><span lang="en">Personal expense tracker built as a PWA. Exploring AI-native input (logging expenses by voice or from a screenshot), data export for analysis with agents and more agentic features on top of personal finance data.</span><span lang="es">Tracker de gastos personales hecho como PWA. Exploro carga nativa con IA (registrar gastos por voz o desde un screenshot), exportación de datos para analizarlos con agentes y funciones más agénticas sobre las finanzas personales.</span></p>
       <div class="proj-stack"><span class="chip">PWA</span><span class="chip">AI AGENTS</span><span class="chip">VERCEL</span></div>
+      <a class="proj-link" href="https://morlaco-nu.vercel.app/" target="_blank" rel="noopener"><span lang="en">▶ OPEN APP</span><span lang="es">▶ ABRIR APP</span></a>
     </div>
 
   </div>
@@ -1175,28 +1202,28 @@ footer span { color: var(--yellow); }
 <!-- SKILLS + EDUCATION -->
 <section id="skills" style="background:#030010; padding:80px 0;">
 <div class="section-wrap">
-  <div class="section-header">SKILLS</div>
-  <div class="section-sub">// POWER-UPS EQUIPPED</div>
+  <div class="section-header"><span lang="en">SKILLS</span><span lang="es">HABILIDADES</span></div>
+  <div class="section-sub"><span lang="en">// POWER-UPS EQUIPPED</span><span lang="es">// POWER-UPS EQUIPADOS</span></div>
 
   <div class="skills-category">
     <div class="skills-category-title product">PRODUCT</div>
     <div class="skills-grid">
-      <div class="skill-item"><span class="skill-icon">🗺</span><span class="skill-name">Product Roadmapping</span></div>
-      <div class="skill-item"><span class="skill-icon">🔍</span><span class="skill-name">Discovery & Research</span></div>
-      <div class="skill-item"><span class="skill-icon">🎯</span><span class="skill-name">Prioritization</span></div>
-      <div class="skill-item"><span class="skill-icon">📊</span><span class="skill-name">Data-Driven Decisions</span></div>
-      <div class="skill-item"><span class="skill-icon">🔁</span><span class="skill-name">Activation & Onboarding</span></div>
-      <div class="skill-item"><span class="skill-icon">💳</span><span class="skill-name">Checkout & Conversion</span></div>
-      <div class="skill-item"><span class="skill-icon">🤝</span><span class="skill-name">Stakeholder Management</span></div>
-      <div class="skill-item"><span class="skill-icon">⚡</span><span class="skill-name">Cross-functional Lead</span></div>
-      <div class="skill-item"><span class="skill-icon">📈</span><span class="skill-name">Analytics Instrumentation</span></div>
-      <div class="skill-item"><span class="skill-icon">🤖</span><span class="skill-name">AI Products &amp; Agents</span></div>
-      <div class="skill-item"><span class="skill-icon">🧪</span><span class="skill-name">Functional Prototyping</span></div>
+      <div class="skill-item"><span class="skill-icon">🗺</span><span class="skill-name"><span lang="en">Product Roadmapping</span><span lang="es">Roadmapping de producto</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🔍</span><span class="skill-name"><span lang="en">Discovery & Research</span><span lang="es">Discovery e investigación</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🎯</span><span class="skill-name"><span lang="en">Prioritization</span><span lang="es">Priorización</span></span></div>
+      <div class="skill-item"><span class="skill-icon">📊</span><span class="skill-name"><span lang="en">Data-Driven Decisions</span><span lang="es">Decisiones basadas en datos</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🔁</span><span class="skill-name"><span lang="en">Activation & Onboarding</span><span lang="es">Activación y onboarding</span></span></div>
+      <div class="skill-item"><span class="skill-icon">💳</span><span class="skill-name"><span lang="en">Checkout & Conversion</span><span lang="es">Checkout y conversión</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🤝</span><span class="skill-name"><span lang="en">Stakeholder Management</span><span lang="es">Gestión de stakeholders</span></span></div>
+      <div class="skill-item"><span class="skill-icon">⚡</span><span class="skill-name"><span lang="en">Cross-functional Lead</span><span lang="es">Liderazgo cross-funcional</span></span></div>
+      <div class="skill-item"><span class="skill-icon">📈</span><span class="skill-name"><span lang="en">Analytics Instrumentation</span><span lang="es">Instrumentación de analytics</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🤖</span><span class="skill-name"><span lang="en">AI Products &amp; Agents</span><span lang="es">Productos de IA y agentes</span></span></div>
+      <div class="skill-item"><span class="skill-icon">🧪</span><span class="skill-name"><span lang="en">Functional Prototyping</span><span lang="es">Prototipado funcional</span></span></div>
     </div>
   </div>
 
   <div class="skills-category">
-    <div class="skills-category-title tools">TOOLS</div>
+    <div class="skills-category-title tools"><span lang="en">TOOLS</span><span lang="es">HERRAMIENTAS</span></div>
     <div class="skills-grid">
       <div class="skill-item"><span class="skill-icon">🧠</span><span class="skill-name">Claude Code</span></div>
       <div class="skill-item"><span class="skill-icon">🗄</span><span class="skill-name">SQL</span></div>
@@ -1213,16 +1240,16 @@ footer span { color: var(--yellow); }
   </div>
 
   <div class="skills-category">
-    <div class="skills-category-title edu">EDUCATION</div>
+    <div class="skills-category-title edu"><span lang="en">EDUCATION</span><span lang="es">ESTUDIOS</span></div>
     <div class="edu-grid">
       <div class="edu-card">
         <div class="edu-school">UNIVERSIDAD DEL MUSEO<br>SOCIAL ARGENTINO</div>
-        <div class="edu-degree">Bachelor's in Journalism (Licenciatura en Periodismo)</div>
+        <div class="edu-degree"><span lang="en">Bachelor's in Journalism</span><span lang="es">Licenciatura en Periodismo</span></div>
         <div class="edu-period">2015 – 2018 · Argentina</div>
       </div>
       <div class="edu-card">
         <div class="edu-school">ORT ARGENTINA</div>
-        <div class="edu-degree">Degree — Systems Analysis</div>
+        <div class="edu-degree"><span lang="en">Degree in Systems Analysis</span><span lang="es">Analista de Sistemas</span></div>
         <div class="edu-period">2019 – 2021 · Argentina</div>
       </div>
     </div>
@@ -1233,17 +1260,18 @@ footer span { color: var(--yellow); }
 <!-- CONTACT -->
 <section id="contact" style="background:#02000A; padding:80px 0;">
 <div class="section-wrap">
-  <div class="section-header">CONTACT</div>
-  <div class="section-sub">// READY TO COLLABORATE?</div>
+  <div class="section-header"><span lang="en">CONTACT</span><span lang="es">CONTACTO</span></div>
+  <div class="section-sub"><span lang="en">// READY TO COLLABORATE?</span><span lang="es">// ¿HACEMOS ALGO JUNTOS?</span></div>
   <div class="contact-box">
-    <div class="contact-pretitle">▶ PLAYER 2 — PRESS START</div>
-    <div class="contact-title">LET'S BUILD<br>SOMETHING</div>
+    <div class="contact-pretitle">▶ PLAYER 2 · PRESS START</div>
+    <div class="contact-title"><span lang="en">LET'S BUILD<br>SOMETHING</span><span lang="es">CONSTRUYAMOS<br>ALGO</span></div>
     <p class="contact-desc">
-      Always happy to talk about <strong>product, data and AI</strong>.<br>
-      Based in Buenos Aires, Argentina.
+<span lang="en">      Always happy to talk about <strong>product, data and AI</strong>.<br>
+      Based in Buenos Aires, Argentina.</span><span lang="es">      Siempre con ganas de hablar de <strong>producto, datos e IA</strong>.<br>
+      Desde Buenos Aires, Argentina.</span>
     </p>
     <div class="contact-links">
-      <a href="#" class="btn btn-yellow" onclick="navigator.clipboard.writeText('nicolasmusa.nm'+'@'+'gmail.com');this.textContent='> COPIADO ✓';setTimeout(()=>this.textContent='> EMAIL ME',2000);return false;">EMAIL ME</a>
+      <a href="#contact" id="btn-email-me" class="btn btn-yellow js-mail">EMAIL</a>
       <a href="https://www.linkedin.com/in/nicolas-musa/" target="_blank" class="btn btn-outline">LINKEDIN</a>
       <a href="https://github.com/Nicolasmusa99" target="_blank" class="btn btn-outline">GITHUB</a>
     </div>
@@ -1471,21 +1499,41 @@ footer span { color: var(--yellow); }
   .fc-name { font-size: 9px; }
   nav { padding: 10px 12px; }
   .nav-links { gap: 8px; }
-  .nav-links a { font-size: 6px; padding: 4px 5px; }
+  .nav-links a { font-size: 7px; padding: 4px 5px; }
   .insert-coin { display: none; }
   .section-wrap { padding: 50px 14px; }
   .edu-grid { grid-template-columns: 1fr; }
   .contact-box { padding: 28px 16px; clip-path: none; }
-  .btn { font-size: 7px; padding: 11px 16px; }
+  .btn { font-size: 8px; padding: 11px 16px; }
   .mvc-stat-bars { max-width: 100%; }
   #mobile-controls { display: flex !important; }
+}
+@media (max-width: 760px) {
+  nav { flex-wrap: wrap; row-gap: 8px; padding: 10px 12px; }
+  .nav-links { order: 3; width: 100%; justify-content: space-between; gap: 2px; }
+  .nav-links a { font-size: 7px; padding: 4px 3px; letter-spacing: 0; }
+  .nav-links .nav-play a { padding: 5px 6px; }
+  .insert-coin { display: none; }
+  #hero { padding-top: 130px; }
 }
 </style>
 
 <footer>
-  &copy; 2026 <span>NICOLAS MUSA</span> · ALL RIGHTS RESERVED · BUENOS AIRES, ARG
+  &copy; 2026 <span>NICOLAS MUSA</span> · <span lang="en">ALL RIGHTS RESERVED</span><span lang="es">TODOS LOS DERECHOS RESERVADOS</span> · BUENOS AIRES, ARG
 </footer>
 
+<script>
+// Language: ?lang= param, then saved choice, then browser language
+(function(){
+  var root=document.documentElement, lang=null;
+  try { lang=new URLSearchParams(location.search).get('lang'); } catch(e){}
+  if(lang!=='en'&&lang!=='es'){ try{ lang=localStorage.getItem('nm-lang'); }catch(e){} }
+  if(lang!=='en'&&lang!=='es'){ lang=(navigator.language||'en').toLowerCase().indexOf('es')===0?'es':'en'; }
+  function set(l){ root.setAttribute('data-lang',l); root.setAttribute('lang',l); try{localStorage.setItem('nm-lang',l);}catch(e){} }
+  set(lang);
+  document.addEventListener('click',function(ev){ var b=ev.target.closest&&ev.target.closest('[data-set]'); if(b) set(b.getAttribute('data-set')); });
+})();
+</script>
 <script>
 // Attach card clicks via JS — avoids Cloudflare onclick interference
 document.addEventListener('DOMContentLoaded', function() {
@@ -1497,6 +1545,13 @@ document.addEventListener('DOMContentLoaded', function() {
   var e = document.getElementById('btn-email-me');
   if (s) s.setAttribute('href', mailto);
   if (e) e.setAttribute('href', mailto);
+  // Also copy the address, for people without a mail client configured
+  Array.prototype.forEach.call(document.querySelectorAll('.js-mail'), function(a){
+    a.addEventListener('click', function(){
+      try { navigator.clipboard.writeText(u + '@' + d); } catch(err) {}
+      a.classList.add('copied'); setTimeout(function(){ a.classList.remove('copied'); }, 2500);
+    });
+  });
 
   var wCard = document.getElementById('card-wolverine');
   var sCard = document.getElementById('card-spidey');
