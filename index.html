@@ -1284,8 +1284,8 @@ footer span { color: var(--yellow); }
 
 <!-- GAME — at the bottom, linked from PLAY in nav -->
 <section id="game">
-  <div class="section-header" style="max-width:960px;margin:0 auto 8px;padding:0 40px;">FIGHT!</div>
-  <div class="section-sub" style="max-width:960px;margin:0 auto 12px;padding:0 40px;">// SELECT YOUR FIGHTER — NICOLAS MUSA VS THE BACKLOG</div>
+  <div class="section-header" style="max-width:960px;margin:0 auto 8px;padding:0 40px;"><span lang="en">FIGHT!</span><span lang="es">A PELEAR!</span></div>
+  <div class="section-sub" style="max-width:960px;margin:0 auto 12px;padding:0 40px;"><span lang="en">// SELECT YOUR FIGHTER · NICOLAS MUSA VS THE BACKLOG</span><span lang="es">// ELEGÍ TU PELEADOR · NICOLAS MUSA VS EL BACKLOG</span></div>
 
   <!-- CHARACTER SELECT — simple picker -->
   <div id="move-cards" style="max-width:960px;margin:0 auto 0;padding:0 20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -1294,17 +1294,17 @@ footer span { color: var(--yellow); }
       <div class="fighter-card-inner" style="border-left:5px solid #FFD700;padding:14px 18px;">
         <div class="fc-badge" style="background:#FFD700;color:#000;">★ WOLVERINE</div>
         <div class="fc-name" style="color:#FFD700;text-shadow:0 0 12px #FF6A00;">NICOLAS MUSA</div>
-        <div class="fc-style">BERSERKER RUSH-DOWN</div>
-        <div id="wlv-sel" class="fc-selected" style="color:#FFD700;">SELECTED ✓</div>
+        <div class="fc-style"><span lang="en">BERSERKER RUSH-DOWN</span><span lang="es">ATAQUE BERSERKER</span></div>
+        <div id="wlv-sel" class="fc-selected" style="color:#FFD700;"><span lang="en">SELECTED ✓</span><span lang="es">ELEGIDO ✓</span></div>
       </div>
     </div>
 
     <div id="card-spidey" class="fighter-card">
       <div class="fighter-card-inner" style="border-left:5px solid #CC0000;padding:14px 18px;">
         <div class="fc-badge" style="background:#CC0000;color:#fff;">★ SPIDER-MAN</div>
-        <div class="fc-name" style="color:#FF4444;text-shadow:0 0 12px #4444FF;">THE BACKLOG</div>
-        <div class="fc-style">AERIAL WEB-ZONER</div>
-        <div id="spd-sel" class="fc-selected" style="color:#CC0000;display:none;">SELECTED ✓</div>
+        <div class="fc-name" style="color:#FF4444;text-shadow:0 0 12px #4444FF;"><span lang="en">THE BACKLOG</span><span lang="es">EL BACKLOG</span></div>
+        <div class="fc-style"><span lang="en">AERIAL WEB-ZONER</span><span lang="es">CONTROL AÉREO CON TELARAÑA</span></div>
+        <div id="spd-sel" class="fc-selected" style="color:#CC0000;display:none;"><span lang="en">SELECTED ✓</span><span lang="es">ELEGIDO ✓</span></div>
       </div>
     </div>
 
@@ -1312,9 +1312,9 @@ footer span { color: var(--yellow); }
 
   <!-- HUD -->
   <div class="game-hud" style="margin-top:12px;">
-    <div class="hud-col"><span class="hud-label">SCORE</span><span class="hud-val" id="score">000000</span></div>
-    <div class="hud-col"><span class="hud-label">TIME</span><span class="hud-timer" id="timer">99</span></div>
-    <div class="hud-col"><span class="hud-label">HI-SCORE</span><span class="hud-val" id="hiscore">010000</span></div>
+    <div class="hud-col"><span class="hud-label"><span lang="en">SCORE</span><span lang="es">PUNTOS</span></span><span class="hud-val" id="score">000000</span></div>
+    <div class="hud-col"><span class="hud-label"><span lang="en">TIME</span><span lang="es">TIEMPO</span></span><span class="hud-timer" id="timer">99</span></div>
+    <div class="hud-col"><span class="hud-label"><span lang="en">HI-SCORE</span><span lang="es">MEJOR</span></span><span class="hud-val" id="hiscore">010000</span></div>
   </div>
 
   <div class="health-section">
@@ -1357,13 +1357,13 @@ footer span { color: var(--yellow); }
       </div>
       <!-- ACTION BUTTONS: right -->
       <div class="mc-actions">
-        <button class="mc-btn mc-act mc-j" id="mb-j">J<span>SLASH</span></button>
-        <button class="mc-btn mc-act mc-k" id="mb-k">K<span>KICK</span></button>
+        <button class="mc-btn mc-act mc-j" id="mb-j">J<span><span lang="en">SLASH</span><span lang="es">CORTE</span></span></button>
+        <button class="mc-btn mc-act mc-k" id="mb-k">K<span><span lang="en">KICK</span><span lang="es">PATADA</span></span></button>
         <button class="mc-btn mc-act mc-l" id="mb-l">L<span>HYPER</span></button>
       </div>
     </div>
     <div class="mc-center">
-      <button class="mc-btn mc-start" id="mb-start">▶ START / ENTER</button>
+      <button class="mc-btn mc-start" id="mb-start">▶ <span lang="en">START</span><span lang="es">EMPEZAR</span> / ENTER</button>
     </div>
   </div>
 
@@ -1578,20 +1578,23 @@ function selectChar(ch) {
   updateReminderBar();
 }
 
+function L(en, es) { return document.documentElement.getAttribute('data-lang') === 'es' ? es : en; }
+document.addEventListener('click', function(ev){ if (ev.target.closest && ev.target.closest('[data-set]')) setTimeout(updateReminderBar, 0); });
+
 function updateReminderBar() {
   const el = document.getElementById('move-reminder');
   if (!el) return;
   const isWlv = selectedChar === 'wolverine';
   const moves = isWlv ? [
-    {key:'J', desc:'SNIKT! Slash', col:'#FFD700'},
-    {key:'K', desc:'Berserker Barrage', col:'#FF6A00'},
-    {key:'L', desc:'Berserker Hyper (3✦)', col:'#FF00CC'},
-    {key:'W+J', desc:'Dive Claws', col:'#FFD700'},
+    {key:'J', desc:L('SNIKT! Slash','SNIKT! Corte'), col:'#FFD700'},
+    {key:'K', desc:L('Berserker Barrage','Ráfaga Berserker'), col:'#FF6A00'},
+    {key:'L', desc:L('Berserker Hyper (3✦)','Hyper Berserker (3✦)'), col:'#FF00CC'},
+    {key:'W+J', desc:L('Dive Claws','Garras en picada'), col:'#FFD700'},
   ] : [
-    {key:'J', desc:'THWIP! Web Shoot', col:'#FF6666'},
-    {key:'K', desc:'Spider Kick', col:'#CC0000'},
+    {key:'J', desc:L('THWIP! Web Shoot','THWIP! Disparo de telaraña'), col:'#FF6666'},
+    {key:'K', desc:L('Spider Kick','Patada araña'), col:'#CC0000'},
     {key:'L', desc:'Maximum Carnage (3✦)', col:'#FF00CC'},
-    {key:'W+J', desc:'Web Swing', col:'#FF6666'},
+    {key:'W+J', desc:L('Web Swing','Balanceo en telaraña'), col:'#FF6666'},
   ];
   el.innerHTML = moves.map(m =>
     `<div class="reminder-pill" style="border-color:${m.col}55;">
@@ -2095,7 +2098,7 @@ function drawBackground() {
 
   ctx.font='11px "Press Start 2P"';
   ctx.fillStyle='#FFFFFF06'; ctx.textAlign='center';
-  ctx.fillText('BACKLOG STAGE — BUENOS AIRES',W/2,H-16);
+  ctx.fillText(L('BACKLOG STAGE · BUENOS AIRES','ESCENARIO BACKLOG · BUENOS AIRES'),W/2,H-16);
 }
 
 // ============================================================
@@ -2224,7 +2227,7 @@ function handlePlayerInput(){
       const col=isWlv?'#FFD700':'#ffffff';
       spawnParticles(enemy.x,enemy.y-40,col,8);
       spawnRing(enemy.x,enemy.y-40,col);
-      const t=isWlv?['SNIKT!','SLASH!','HIT!']:['THWIP!','WEB HIT!','GOT EM!'];
+      const t=isWlv?['SNIKT!',L('SLASH!','CORTE!'),L('HIT!','GOLPE!')]:['THWIP!',L('WEB HIT!','TELARAZO!'),L('GOT EM!','TOMA!')];
       spawnText(enemy.x,enemy.y-82,t[Math.floor(Math.random()*t.length)],col,13);
       spawnText(enemy.x+22,enemy.y-104,`-${dmg}`,'#FFE000',11);
       if(!isWlv) spawnWeb(player.x,player.y-32,enemy.x,enemy.y-32);
@@ -2274,7 +2277,7 @@ function handlePlayerInput(){
         if(enemy.health<=0){enemy.state='ko';endGame();}
       }
     } else {
-      spawnText(player.x,player.y-80,'NEED 3✦ SUPER!','#FF6600',10);
+      spawnText(player.x,player.y-80,L('NEED 3✦ SUPER!','FALTAN 3✦ SUPER!'),'#FF6600',10);
     }
   }
 
@@ -2356,7 +2359,7 @@ function drawCharSelect(){
   const fc=['#FFD700','#CC0000','#FFFFFF'][flash];
   ctx.font='14px "Press Start 2P"';
   ctx.fillStyle=fc; ctx.shadowBlur=20; ctx.shadowColor=fc;
-  ctx.fillText('SELECT YOUR FIGHTER',W/2,55);
+  ctx.fillText(L('SELECT YOUR FIGHTER','ELEGI TU PELEADOR'),W/2,55);
   ctx.shadowBlur=0;
 
   // Draw Wolverine preview (left)
@@ -2385,7 +2388,7 @@ function drawCharSelect(){
   if(Math.floor(frameCount/26)%2===0){
     ctx.font='8px "Press Start 2P"';
     ctx.fillStyle='#FFD700'; ctx.shadowBlur=12; ctx.shadowColor='#FFD700';
-    ctx.fillText('PICK FIGHTER ABOVE — PRESS ENTER!',W/2,420);
+    ctx.fillText(L('PICK FIGHTER ABOVE · PRESS ENTER!','ELEGI ARRIBA Y DALE ENTER!'),W/2,420);
     ctx.shadowBlur=0;
   }
 }
@@ -2396,16 +2399,16 @@ function drawEndScreen(){
   const c=gameState==='win'?(Math.floor(frameCount/6)%2===0?'#FFD700':'#FF00CC'):'#FF1C1C';
   ctx.fillStyle=c; ctx.font='26px "Press Start 2P"';
   ctx.shadowBlur=28; ctx.shadowColor=c;
-  ctx.fillText(gameState==='win'?'YOU WIN!':'GAME OVER',W/2,130);
+  ctx.fillText(gameState==='win'?L('YOU WIN!','GANASTE!'):'GAME OVER',W/2,130);
   ctx.shadowBlur=0;
   ctx.fillStyle=gameState==='win'?'#00FF88':'#FF6600';
   ctx.font='9px "Press Start 2P"';
-  ctx.fillText(gameState==='win'?'BACKLOG DEFEATED!':'THE BACKLOG WINS...',W/2,172);
+  ctx.fillText(gameState==='win'?L('BACKLOG DEFEATED!','BACKLOG DERROTADO!'):L('THE BACKLOG WINS...','VENCE EL BACKLOG...'),W/2,172);
   ctx.fillStyle='#00E5FF'; ctx.font='9px "Press Start 2P"';
-  ctx.fillText(`SCORE: ${String(score).padStart(6,'0')}`,W/2,220);
+  ctx.fillText(`${L('SCORE','PUNTOS')}: ${String(score).padStart(6,'0')}`,W/2,220);
   if(Math.floor(frameCount/28)%2===0){
     ctx.fillStyle='#fff'; ctx.font='7px "Press Start 2P"';
-    ctx.fillText('PRESS ENTER TO PLAY AGAIN',W/2,268);
+    ctx.fillText(L('PRESS ENTER TO PLAY AGAIN','ENTER PARA LA REVANCHA'),W/2,268);
   }
 }
 
